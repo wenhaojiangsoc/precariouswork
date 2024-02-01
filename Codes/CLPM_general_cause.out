@@ -1,0 +1,467 @@
+> rm(list = ls())
+> 
+> ## load packages
+> library(dpm)
+Loading required package: lavaan
+This is lavaan 0.6-17
+lavaan is FREE software! Please report any bugs.
+> library(fastDummies)
+Thank you for using fastDummies!
+To acknowledge our work, please cite the package:
+Kaplan, J. & Schlegel, B. (2023). fastDummies: Fast Creation of Dummy (Binary) Columns and Rows from Categorical Variables. Version 1.7.1. URL: https://github.com/jacobkap/fastDummies, https://jacobkap.github.io/fastDummies/.
+> library(dplyr)
+
+Attaching package: 'dplyr'
+
+The following objects are masked from 'package:stats':
+
+    filter, lag
+
+The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union
+
+> 
+> ## read cleaned data
+> ## setwd("~/Dropbox/RA Linsey/NLSY97/precarious/Cleaned Data")
+> setwd("/scratch/wj2068/precarious")
+> df <- read.csv("master_01.csv")
+> df <- df %>% dplyr::select(-c(X))
+> 
+> ## within-industry change
+> df <- df %>%
++   group_by(industry) %>%
++   mutate(education = education - mean(education,na.rm=T),
++          income = income - mean(income,na.rm=T),
++          spouse.precarious = spouse.precarious - mean(spouse.precarious,na.rm=T),
++          child.exist = child.exist - mean(child.exist,na.rm=T),
++          urban = urban - mean(urban,na.rm=T),
++          union = union - mean(union,na.rm=T)
++   )
+> 
+> ## within-occupation change
+> df <- df %>%
++   group_by(occupation) %>%
++   mutate(education = education - mean(education,na.rm=T),
++          income = income - mean(income,na.rm=T),
++          spouse.precarious = spouse.precarious - mean(spouse.precarious,na.rm=T),
++          child.exist = child.exist - mean(child.exist,na.rm=T),
++          urban = urban - mean(urban,na.rm=T),
++          union = union - mean(union,na.rm=T)
++   )
+> 
+> df <- df %>% ungroup()
+> 
+> ## transform the data to be analyzed by the dpm package
+> df_dpm <- df
+> df_dpm[which(df_dpm$year==2011),"year"]<-1
+> df_dpm[which(df_dpm$year==2013),"year"]<-2
+> df_dpm[which(df_dpm$year==2015),"year"]<-3
+> df_dpm[which(df_dpm$year==2017),"year"]<-4
+> df_dpm[which(df_dpm$year==2019),"year"]<-5
+> df_dpm <- panel_data(df_dpm, id = ID, wave = year)
+> 
+> ## create race dummies
+> df_dpm$race_black <- 0
+> df_dpm[which(df_dpm$race == 1), "race_black"] <- 1
+> df_dpm$race_hispanic <- 0
+> df_dpm[which(df_dpm$race == 2), "race_hispanic"] <- 1
+> df_dpm$race_mixed <- 0
+> df_dpm[which(df_dpm$race == 3), "race_mixed"] <- 1
+> df_dpm$race_white <- 0
+> df_dpm[which(df_dpm$race == 4), "race_white"] <- 1
+> 
+> ## create controls, including dummies for industry but not occupation
+> controls <-
++   c("lag(education)","education",
++   "lag(income)","income",
++   "lag(spouse.precarious)","spouse.precarious",
++   "lag(child.exist)","child.exist",
++   "lag(urban)","urban",
++   "lag(union)","union")
+> 
+> ######################################
+> ############General Health############
+> ######################################
+> 
+> #########################
+> ###Health ~ Precarious###
+> #########################
+> 
+> ## general health ~ summative index
+> treatment <-
++   c("pre(lag(precarious))", "pre(precarious)")
+> variables <- c(treatment, controls)
+> 
+> try({
++   ## full
++   ghealth_0 <- dpm(
++                   as.formula(paste("ghealth ~ ",
++                                    paste(variables, collapse = " + "),
++                                    "| sex + race_black + race_hispanic + race_mixed")),
++                   data = df_dpm,
++                   error.inv = FALSE, information = "observed", missing = "fiml",
++                   fixed.effects = TRUE, weights = sw
++                   )
++   ## main results
++   summary(ghealth_0)
++   
++ },silent=TRUE)
+MODEL INFO:
+Dependent variable: ghealth 
+Total observations: 8838 
+Complete observations: 388 
+Time periods: 2 - 5 
+
+MODEL FIT:
+<U+0001D6D8><U+00B2>(104) = 202.003
+RMSEA = 0.01, 90% CI [0.008, 0.012]
+p(RMSEA < .05) = 1
+SRMR = 0.004 
+
+|                               |   Est. |  S.E. | z val. |     p |
+|:------------------------------|-------:|------:|-------:|------:|
+| precarious (t - 1)            | -0.003 | 0.013 | -0.237 | 0.812 |
+| precarious                    | -0.010 | 0.017 | -0.571 | 0.568 |
+| education (t - 1)             | -0.009 | 0.011 | -0.780 | 0.435 |
+| education                     | -0.009 | 0.012 | -0.777 | 0.437 |
+| income (t - 1)                | -0.010 | 0.011 | -0.939 | 0.348 |
+| income                        |  0.023 | 0.011 |  2.186 | 0.029 |
+| spouse.precarious (t - 1)     | -0.003 | 0.005 | -0.612 | 0.541 |
+| spouse.precarious             |  0.001 | 0.006 |  0.238 | 0.812 |
+| child.exist (t - 1)           |  0.001 | 0.010 |  0.060 | 0.952 |
+| child.exist                   | -0.017 | 0.011 | -1.511 | 0.131 |
+| urban (t - 1)                 | -0.004 | 0.009 | -0.435 | 0.663 |
+| urban                         | -0.008 | 0.010 | -0.887 | 0.375 |
+| union (t - 1)                 | -0.005 | 0.011 | -0.496 | 0.620 |
+| union                         |  0.011 | 0.011 |  0.957 | 0.338 |
+| sex                           | -0.074 | 0.020 | -3.687 | 0.000 |
+| race_black                    | -0.096 | 0.024 | -3.979 | 0.000 |
+| race_hispanic                 | -0.124 | 0.025 | -5.060 | 0.000 |
+| race_mixed                    | -0.098 | 0.092 | -1.064 | 0.287 |
+| ghealth (t - 1)               |  0.117 | 0.014 |  8.360 | 0.000 |
+
+Model converged after 521 iterations
+Warning messages:
+1: Using formula(x) is deprecated when x is a character vector of length > 1.
+  Consider formula(paste(x, collapse = " ")) instead. 
+2: Using formula(x) is deprecated when x is a character vector of length > 1.
+  Consider formula(paste(x, collapse = " ")) instead. 
+3: In lav_model_vcov(lavmodel = lavmodel, lavsamplestats = lavsamplestats,  :
+  lavaan WARNING:
+    The variance-covariance matrix of the estimated parameters (vcov)
+    does not appear to be positive definite! The smallest eigenvalue
+    (= 6.538177e-16) is close to zero. This may be a symptom that the
+    model is not identified.
+> 
+> try({
++   ## male
++   ghealth_0 <- dpm(
++                   as.formula(paste("ghealth ~ ",
++                                    paste(variables, collapse = " + "),
++                                    "| race_black + race_hispanic + race_mixed")),
++                   data = df_dpm[which(df_dpm$sex==1),],
++                   error.inv = FALSE, information = "observed", missing = "fiml",
++                   fixed.effects = TRUE, weights = sw
++                 )
++   ## main results
++   summary(ghealth_0)
++   
++ },silent=TRUE)
+MODEL INFO:
+Dependent variable: ghealth 
+Total observations: 4493 
+Complete observations: 151 
+Time periods: 2 - 5 
+
+MODEL FIT:
+<U+0001D6D8><U+00B2>(101) = 157.35
+RMSEA = 0.011, 90% CI [0.008, 0.014]
+p(RMSEA < .05) = 1
+SRMR = 0.006 
+
+|                               |   Est. |  S.E. | z val. |     p |
+|:------------------------------|-------:|------:|-------:|------:|
+| precarious (t - 1)            |  0.015 | 0.019 |  0.795 | 0.427 |
+| precarious                    |  0.022 | 0.024 |  0.917 | 0.359 |
+| education (t - 1)             |  0.000 | 0.016 |  0.004 | 0.996 |
+| education                     | -0.036 | 0.018 | -1.992 | 0.046 |
+| income (t - 1)                | -0.010 | 0.016 | -0.648 | 0.517 |
+| income                        |  0.047 | 0.015 |  3.129 | 0.002 |
+| spouse.precarious (t - 1)     | -0.001 | 0.008 | -0.070 | 0.944 |
+| spouse.precarious             |  0.000 | 0.011 |  0.037 | 0.971 |
+| child.exist (t - 1)           |  0.016 | 0.014 |  1.116 | 0.264 |
+| child.exist                   | -0.023 | 0.015 | -1.463 | 0.143 |
+| urban (t - 1)                 |  0.003 | 0.013 |  0.211 | 0.833 |
+| urban                         |  0.010 | 0.014 |  0.710 | 0.478 |
+| union (t - 1)                 | -0.011 | 0.015 | -0.698 | 0.485 |
+| union                         |  0.016 | 0.016 |  0.992 | 0.321 |
+| race_black                    | -0.027 | 0.038 | -0.715 | 0.475 |
+| race_hispanic                 | -0.134 | 0.035 | -3.799 | 0.000 |
+| race_mixed                    | -0.153 | 0.121 | -1.264 | 0.206 |
+| ghealth (t - 1)               |  0.117 | 0.021 |  5.713 | 0.000 |
+
+Model converged after 511 iterations
+Warning messages:
+1: Using formula(x) is deprecated when x is a character vector of length > 1.
+  Consider formula(paste(x, collapse = " ")) instead. 
+2: Using formula(x) is deprecated when x is a character vector of length > 1.
+  Consider formula(paste(x, collapse = " ")) instead. 
+3: In lav_data_full(data = data, group = group, cluster = cluster,  :
+  lavaan WARNING:
+    due to missing values, some pairwise combinations have less than
+    10% coverage; use lavInspect(fit, "coverage") to investigate.
+4: In lav_model_vcov(lavmodel = lavmodel, lavsamplestats = lavsamplestats,  :
+  lavaan WARNING:
+    The variance-covariance matrix of the estimated parameters (vcov)
+    does not appear to be positive definite! The smallest eigenvalue
+    (= 2.102196e-15) is close to zero. This may be a symptom that the
+    model is not identified.
+> 
+> try({
++   ## female
++   ghealth_0 <- dpm(
++                   as.formula(paste("ghealth ~ ",
++                                    paste(variables, collapse = " + "),
++                                    "| race_black + race_hispanic + race_mixed")),
++                   data = df_dpm[which(df_dpm$sex==2),],
++                   error.inv = FALSE, information = "observed", missing = "fiml",
++                   fixed.effects = TRUE, weights = sw
++                 )
++   ## main results
++   summary(ghealth_0)
++   
++ },silent=TRUE)
+MODEL INFO:
+Dependent variable: ghealth 
+Total observations: 4345 
+Complete observations: 237 
+Time periods: 2 - 5 
+
+MODEL FIT:
+<U+0001D6D8><U+00B2>(101) = 162.972
+RMSEA = 0.012, 90% CI [0.008, 0.015]
+p(RMSEA < .05) = 1
+SRMR = 0.005 
+
+|                               |   Est. |  S.E. | z val. |     p |
+|:------------------------------|-------:|------:|-------:|------:|
+| precarious (t - 1)            | -0.019 | 0.019 | -0.998 | 0.318 |
+| precarious                    | -0.059 | 0.025 | -2.396 | 0.017 |
+| education (t - 1)             | -0.019 | 0.015 | -1.331 | 0.183 |
+| education                     |  0.015 | 0.015 |  0.988 | 0.323 |
+| income (t - 1)                | -0.010 | 0.015 | -0.642 | 0.521 |
+| income                        | -0.002 | 0.015 | -0.107 | 0.915 |
+| spouse.precarious (t - 1)     | -0.004 | 0.007 | -0.650 | 0.516 |
+| spouse.precarious             |  0.003 | 0.008 |  0.409 | 0.683 |
+| child.exist (t - 1)           | -0.019 | 0.015 | -1.270 | 0.204 |
+| child.exist                   | -0.008 | 0.015 | -0.531 | 0.596 |
+| urban (t - 1)                 | -0.011 | 0.013 | -0.857 | 0.392 |
+| urban                         | -0.028 | 0.013 | -2.117 | 0.034 |
+| union (t - 1)                 |  0.000 | 0.016 |  0.027 | 0.979 |
+| union                         |  0.004 | 0.016 |  0.266 | 0.790 |
+| race_black                    | -0.159 | 0.033 | -4.864 | 0.000 |
+| race_hispanic                 | -0.114 | 0.035 | -3.280 | 0.001 |
+| race_mixed                    | -0.030 | 0.135 | -0.218 | 0.827 |
+| ghealth (t - 1)               |  0.114 | 0.019 |  5.968 | 0.000 |
+
+Model converged after 471 iterations
+Warning messages:
+1: Using formula(x) is deprecated when x is a character vector of length > 1.
+  Consider formula(paste(x, collapse = " ")) instead. 
+2: Using formula(x) is deprecated when x is a character vector of length > 1.
+  Consider formula(paste(x, collapse = " ")) instead. 
+3: In lav_model_vcov(lavmodel = lavmodel, lavsamplestats = lavsamplestats,  :
+  lavaan WARNING:
+    The variance-covariance matrix of the estimated parameters (vcov)
+    does not appear to be positive definite! The smallest eigenvalue
+    (= 1.524254e-15) is close to zero. This may be a symptom that the
+    model is not identified.
+> 
+> ## general health ~ IRT
+> treatment <-
++   c("pre(lag(Lz))", "pre(Lz)")
+> variables <- c(treatment, controls)
+> 
+> try({
++   ## full
++   ghealth_0_irt <- dpm(
++                       as.formula(paste("ghealth ~ ",
++                                        paste(variables, collapse = " + "),
++                                        "| sex + race_black + race_hispanic + race_mixed")),
++                       data = df_dpm,
++                       error.inv = FALSE, information = "observed", missing = "fiml",
++                       fixed.effects = TRUE, weights = sw
++                     )
++   
++   summary(ghealth_0_irt)
++ },silent=T)
+MODEL INFO:
+Dependent variable: ghealth 
+Total observations: 8838 
+Complete observations: 388 
+Time periods: 2 - 5 
+
+MODEL FIT:
+<U+0001D6D8><U+00B2>(104) = 198.969
+RMSEA = 0.01, 90% CI [0.008, 0.012]
+p(RMSEA < .05) = 1
+SRMR = 0.004 
+
+|                               |   Est. |  S.E. | z val. |     p |
+|:------------------------------|-------:|------:|-------:|------:|
+| Lz (t - 1)                    | -0.006 | 0.013 | -0.463 | 0.644 |
+| Lz                            |  0.004 | 0.015 |  0.280 | 0.780 |
+| education (t - 1)             | -0.009 | 0.011 | -0.844 | 0.399 |
+| education                     | -0.009 | 0.012 | -0.790 | 0.430 |
+| income (t - 1)                | -0.010 | 0.011 | -0.887 | 0.375 |
+| income                        |  0.023 | 0.010 |  2.210 | 0.027 |
+| spouse.precarious (t - 1)     | -0.003 | 0.005 | -0.578 | 0.563 |
+| spouse.precarious             |  0.001 | 0.006 |  0.173 | 0.863 |
+| child.exist (t - 1)           |  0.001 | 0.010 |  0.051 | 0.960 |
+| child.exist                   | -0.017 | 0.011 | -1.557 | 0.120 |
+| urban (t - 1)                 | -0.005 | 0.009 | -0.485 | 0.627 |
+| urban                         | -0.008 | 0.010 | -0.876 | 0.381 |
+| union (t - 1)                 | -0.006 | 0.011 | -0.512 | 0.609 |
+| union                         |  0.011 | 0.011 |  0.969 | 0.332 |
+| sex                           | -0.073 | 0.020 | -3.556 | 0.000 |
+| race_black                    | -0.100 | 0.024 | -4.226 | 0.000 |
+| race_hispanic                 | -0.125 | 0.025 | -5.105 | 0.000 |
+| race_mixed                    | -0.101 | 0.092 | -1.095 | 0.274 |
+| ghealth (t - 1)               |  0.117 | 0.014 |  8.376 | 0.000 |
+
+Model converged after 496 iterations
+Warning messages:
+1: Using formula(x) is deprecated when x is a character vector of length > 1.
+  Consider formula(paste(x, collapse = " ")) instead. 
+2: Using formula(x) is deprecated when x is a character vector of length > 1.
+  Consider formula(paste(x, collapse = " ")) instead. 
+3: In lav_model_vcov(lavmodel = lavmodel, lavsamplestats = lavsamplestats,  :
+  lavaan WARNING:
+    The variance-covariance matrix of the estimated parameters (vcov)
+    does not appear to be positive definite! The smallest eigenvalue
+    (= 7.934484e-16) is close to zero. This may be a symptom that the
+    model is not identified.
+> 
+> try({
++   ## male
++   ghealth_0_irt <- dpm(
++                       as.formula(paste("ghealth ~ ",
++                                        paste(variables, collapse = " + "),
++                                        "| race_black + race_hispanic + race_mixed")),
++                       data = df_dpm[which(df_dpm$sex==1),],
++                       error.inv = FALSE, information = "observed", missing = "fiml",
++                       fixed.effects = TRUE, weights = sw
++                     )
++   
++   summary(ghealth_0_irt)
++ },silent=T)
+MODEL INFO:
+Dependent variable: ghealth 
+Total observations: 4493 
+Complete observations: 151 
+Time periods: 2 - 5 
+
+MODEL FIT:
+<U+0001D6D8><U+00B2>(101) = 163.512
+RMSEA = 0.012, 90% CI [0.008, 0.015]
+p(RMSEA < .05) = 1
+SRMR = 0.006 
+
+|                               |   Est. |  S.E. | z val. |     p |
+|:------------------------------|-------:|------:|-------:|------:|
+| Lz (t - 1)                    |  0.001 | 0.018 |  0.076 | 0.940 |
+| Lz                            |  0.021 | 0.022 |  0.938 | 0.348 |
+| education (t - 1)             |  0.002 | 0.016 |  0.110 | 0.913 |
+| education                     | -0.035 | 0.018 | -1.948 | 0.051 |
+| income (t - 1)                | -0.010 | 0.016 | -0.634 | 0.526 |
+| income                        |  0.048 | 0.015 |  3.137 | 0.002 |
+| spouse.precarious (t - 1)     | -0.001 | 0.009 | -0.068 | 0.946 |
+| spouse.precarious             | -0.000 | 0.011 | -0.003 | 0.998 |
+| child.exist (t - 1)           |  0.016 | 0.014 |  1.095 | 0.273 |
+| child.exist                   | -0.023 | 0.015 | -1.465 | 0.143 |
+| urban (t - 1)                 |  0.003 | 0.013 |  0.245 | 0.806 |
+| urban                         |  0.011 | 0.014 |  0.825 | 0.409 |
+| union (t - 1)                 | -0.011 | 0.015 | -0.732 | 0.464 |
+| union                         |  0.016 | 0.016 |  1.020 | 0.308 |
+| race_black                    | -0.018 | 0.036 | -0.497 | 0.619 |
+| race_hispanic                 | -0.130 | 0.035 | -3.732 | 0.000 |
+| race_mixed                    | -0.147 | 0.120 | -1.230 | 0.219 |
+| ghealth (t - 1)               |  0.118 | 0.021 |  5.757 | 0.000 |
+
+Model converged after 504 iterations
+Warning messages:
+1: Using formula(x) is deprecated when x is a character vector of length > 1.
+  Consider formula(paste(x, collapse = " ")) instead. 
+2: Using formula(x) is deprecated when x is a character vector of length > 1.
+  Consider formula(paste(x, collapse = " ")) instead. 
+3: In lav_data_full(data = data, group = group, cluster = cluster,  :
+  lavaan WARNING:
+    due to missing values, some pairwise combinations have less than
+    10% coverage; use lavInspect(fit, "coverage") to investigate.
+4: In lav_model_vcov(lavmodel = lavmodel, lavsamplestats = lavsamplestats,  :
+  lavaan WARNING:
+    The variance-covariance matrix of the estimated parameters (vcov)
+    does not appear to be positive definite! The smallest eigenvalue
+    (= 1.351441e-15) is close to zero. This may be a symptom that the
+    model is not identified.
+> 
+> try({
++   ## female
++   ghealth_0_irt <- dpm(
++                       as.formula(paste("ghealth ~ ",
++                                        paste(variables, collapse = " + "),
++                                        "| race_black + race_hispanic + race_mixed")),
++                       data = df_dpm[which(df_dpm$sex==2),],
++                       error.inv = FALSE, information = "observed", missing = "fiml",
++                       fixed.effects = TRUE, weights = sw
++                     )
++   
++   summary(ghealth_0_irt)
++ },silent=T)
+MODEL INFO:
+Dependent variable: ghealth 
+Total observations: 4345 
+Complete observations: 237 
+Time periods: 2 - 5 
+
+MODEL FIT:
+<U+0001D6D8><U+00B2>(101) = 160.398
+RMSEA = 0.012, 90% CI [0.008, 0.015]
+p(RMSEA < .05) = 1
+SRMR = 0.005 
+
+|                               |   Est. |  S.E. | z val. |     p |
+|:------------------------------|-------:|------:|-------:|------:|
+| Lz (t - 1)                    | -0.004 | 0.018 | -0.246 | 0.806 |
+| Lz                            | -0.025 | 0.022 | -1.138 | 0.255 |
+| education (t - 1)             | -0.022 | 0.015 | -1.478 | 0.139 |
+| education                     |  0.015 | 0.015 |  0.980 | 0.327 |
+| income (t - 1)                | -0.009 | 0.015 | -0.580 | 0.562 |
+| income                        |  0.001 | 0.015 |  0.044 | 0.965 |
+| spouse.precarious (t - 1)     | -0.005 | 0.007 | -0.679 | 0.497 |
+| spouse.precarious             |  0.003 | 0.008 |  0.360 | 0.719 |
+| child.exist (t - 1)           | -0.018 | 0.015 | -1.234 | 0.217 |
+| child.exist                   | -0.009 | 0.015 | -0.558 | 0.577 |
+| urban (t - 1)                 | -0.012 | 0.013 | -0.934 | 0.350 |
+| urban                         | -0.027 | 0.013 | -2.020 | 0.043 |
+| union (t - 1)                 | -0.001 | 0.016 | -0.061 | 0.951 |
+| union                         |  0.005 | 0.016 |  0.310 | 0.757 |
+| race_black                    | -0.172 | 0.032 | -5.321 | 0.000 |
+| race_hispanic                 | -0.121 | 0.035 | -3.475 | 0.001 |
+| race_mixed                    | -0.040 | 0.138 | -0.291 | 0.771 |
+| ghealth (t - 1)               |  0.114 | 0.019 |  5.994 | 0.000 |
+
+Model converged after 485 iterations
+Warning messages:
+1: Using formula(x) is deprecated when x is a character vector of length > 1.
+  Consider formula(paste(x, collapse = " ")) instead. 
+2: Using formula(x) is deprecated when x is a character vector of length > 1.
+  Consider formula(paste(x, collapse = " ")) instead. 
+3: In lav_model_vcov(lavmodel = lavmodel, lavsamplestats = lavsamplestats,  :
+  lavaan WARNING:
+    The variance-covariance matrix of the estimated parameters (vcov)
+    does not appear to be positive definite! The smallest eigenvalue
+    (= 1.451992e-15) is close to zero. This may be a symptom that the
+    model is not identified.
+> 

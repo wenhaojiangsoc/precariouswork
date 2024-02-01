@@ -1,0 +1,16 @@
+#!/bin/bash
+#
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --cpus-per-task=16
+#SBATCH --time=168:00:00
+#SBATCH --mem=16GB
+#SBATCH --job-name=CLPM_mental_cause
+#SBATCH --output=CLPM_mental_cause.out
+#SBATCH --mail-type=ALL
+#SBATCH --mail-user=wj2068@nyu.edu
+
+module purge
+module load r/gcc/4.3.1
+cd /scratch/wj2068/precarious
+R -q -f CLPM_mental_causation.R
