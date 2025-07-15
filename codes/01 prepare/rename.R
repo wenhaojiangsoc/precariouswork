@@ -488,6 +488,14 @@ df <- df %>% rename(emotion_2009 = T4573500,
                     emotion_2017 = U2963700,
                     emotion_2019 = U4368700)
 
+## Number of times R experienced depression
+df <- df %>% rename(depression_2009 = T4573600,
+                    depression_2010 = T6210700,
+                    depression_2011 = T7708100,
+                    depression_2015 = U1100600,
+                    depression_2017 = U2963800,
+                    depression_2019 = U4368800)
+
 ## general mental health in 2019
 df <- df %>% rename(mental_2019 = U3455400)
 

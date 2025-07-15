@@ -30,8 +30,8 @@ result <-
 
 controls <-
   c("factor(race, level = c(4,1,2,3))",
-    "education","income",
-    "factor(sex)",
+    "education","income","spouse.exist",
+    "factor(sex)","factor(region)",
     "child.exist","factor(union)","factor(urban)",
     "spouse.precarious","injill","factor(occupation)","factor(hourly)",
     "factor(industry)","factor(year)")
@@ -91,7 +91,7 @@ model4 <- felm(
   as.formula(paste("ghealth",
                    paste(paste(variables, collapse = " + "),"| 0 | 0 | ID"),
                    sep = " ~ ")),
-  data = df, weights = df$sw
+  data = df
 )
 result[result$direction=="causation"&result$response=="general"&result$measure=="summative"&result$model=="LDV","coef"] <-
   summary(model4)$coef[2,1]

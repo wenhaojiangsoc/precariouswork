@@ -528,16 +528,6 @@ df <- df[, -which(names(df) %in% c("T8116500","T8117500","T8123801","T8123901",
 ## remove residual datasets
 rm(IRTmodel,pca,i,member,weight)
 
-#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~
-###### Create Education Dummy ######
-#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~
-
-df[which(df$education==95),"education"]<-NA
-df[which(df$education<12),"edu_cat"] <- 0 #BLHS
-df[which(df$education==12),"edu_cat"] <- 1 #HS
-df[which(df$education>12&df$education<16),"edu_cat"] <- 2 #SMC
-df[which(df$education>=16),"edu_cat"] <- 3 #CH
-
 #~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~
 ###### Create Variable Lags ######
 #~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~
@@ -678,8 +668,6 @@ dummy_cols(df[,c("sex","age","race","region","income",
   describe(fast=T) %>%
   print(digits=3)
 
-unique(df[df$sex==1&!is.na(df$precarious_dummy),"ID"])
-
 ## t test
 for (v in c("age","race_4","race_1","race_2","race_3",
             "region_1","region_2","region_3","region_4","income",
@@ -715,17 +703,17 @@ df %>%
 
 ## standardize, scale, and center
 df_st <-
-  cbind(df$ID,df$year, df$sw, df$race,df$sex, df$industry, df$edu_cat, df$occupation,
+  cbind(df$ID,df$year, df$sw, df$race,df$sex, df$industry, df$occupation,
         scale(df[,c("ghealth","mental.pc.index", "precarious","education",
                     "income","spouse.exist", "child.exist",
                     "urban","union","spouse.precarious",
                     "injill","Lz","lag.ghealth","lag.precarious",
                     "lag.Lz","lag.mental.pc.index",
                     "precarious_dummy","region",
-                    "age","marriage","nchild","limita","limitk","hourly")],
+                    "age","marriage","nchild","hourly")],
               center=TRUE, scale=TRUE))
 df_st <- as.data.frame(df_st)
-colnames(df_st)[1:8] <- c("ID", "year", "sw", "race","sex","industry","edu_cat","occupation")
+colnames(df_st)[1:7] <- c("ID", "year", "sw", "race","sex","industry","occupation")
 
 #~#~#~#~#~#~#~#~#~#~#~
 ### Export Dataset ###
