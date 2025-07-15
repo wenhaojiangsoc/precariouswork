@@ -10,8 +10,11 @@ library(dplyr)
 setwd("/scratch/wj2068/precarious")
 df <- read.csv("master_01.csv")
 
+## copy
+df_dpm <- df
+
 ## within-industry change
-df <- df %>%
+df_dpm <- df_dpm %>%
   group_by(industry) %>%
   mutate(education = education - mean(education,na.rm=T),
          income = income - mean(income,na.rm=T),
@@ -21,11 +24,15 @@ df <- df %>%
          union = union - mean(union,na.rm=T),
          injill = injill - mean(injill, na.rm=T),
          spouse.exist = spouse.exist - mean(spouse.exist, na.rm=T),
-         hourly = hourly - mean(hourly, na.rm=T)
+         hourly = hourly - mean(hourly, na.rm=T),
+         precarious = precarious - mean(precarious, na.rm=T),
+         Lz = Lz - mean(Lz, na.rm=T),
+         ghealth = ghealth - mean(ghealth, na.rm=T),
+         mental.pc.index = mental.pc.index - mean(mental.pc.index, na.rm=T)
   )
 
 ## within-occupation change
-df <- df %>%
+df_dpm <- df_dpm %>%
   group_by(occupation) %>%
   mutate(education = education - mean(education,na.rm=T),
          income = income - mean(income,na.rm=T),
@@ -35,18 +42,21 @@ df <- df %>%
          union = union - mean(union,na.rm=T),
          injill = injill - mean(injill, na.rm=T),
          spouse.exist = spouse.exist - mean(spouse.exist, na.rm=T),
-         hourly = hourly - mean(hourly, na.rm=T)
+         hourly = hourly - mean(hourly, na.rm=T),
+         precarious = precarious - mean(precarious, na.rm=T),
+         Lz = Lz - mean(Lz, na.rm=T),
+         ghealth = ghealth - mean(ghealth, na.rm=T),
+         mental.pc.index = mental.pc.index - mean(mental.pc.index, na.rm=T)
   )
 
-df <- df %>% ungroup()
+df_dpm <- df_dpm %>% ungroup()
 
 ## transform the data to be analyzed by the dpm package
-df_dpm <- df
-df_dpm <- df_dpm %>%
-  filter(year>=2015)
-df_dpm[which(df_dpm$year==2015),"year"]<-1
-df_dpm[which(df_dpm$year==2017),"year"]<-2
-df_dpm[which(df_dpm$year==2019),"year"]<-3
+df_dpm[which(df_dpm$year==2011),"year"]<-1
+df_dpm[which(df_dpm$year==2013),"year"]<-2
+df_dpm[which(df_dpm$year==2015),"year"]<-3
+df_dpm[which(df_dpm$year==2017),"year"]<-4
+df_dpm[which(df_dpm$year==2019),"year"]<-5
 df_dpm <- panel_data(df_dpm, id = ID, wave = year)
 
 ## create race dummies
@@ -149,7 +159,7 @@ try({
 
 ## IRT ~ mental health - male
 try({
-  ## full
+  ## male
   mental_1_irt <- 
     dpm(
       as.formula(paste("Lz ~ ",
@@ -165,7 +175,7 @@ try({
 
 ## IRT ~ mental health - female
 try({
-  ## full
+  ## female
   mental_1_irt <- 
     dpm(
       as.formula(paste("Lz ~ ",

@@ -1,10 +1,10 @@
 # Bad Health, Bad Jobs
 
-Repository for replication codes and data for the paper *Bad Health, Bad Jobs*, currently at the stage of work in progress.
+Repository for replication codes and data for the paper *Bad Health, Bad Jobs*, currently under review.
 
 ## Overview about the Repository
 
-This repository hosts original raw data and the codes that clean, transform and analyze it for the final results in the paper. For replication questions, please reach out to Wenhao at `wj2068@nyu.edu`.
+This repository hosts original raw data and the codes that clean, transform and analyze it for the final results in the paper. For replication questions, please reach out to Wenhao Jiang at `wenhao.jiang@duke.edu`.
 
 ### Data
  
@@ -18,14 +18,14 @@ We include two kinds of data to repoduce the main results.
 
 We include three sets of codes.
 
-* `01 prepare`: the three files clean the raw `precarious.csv` data and produce the final output `master_01.csv` in our analysis. Most operations we described in the paper are included in `prepare data.R`. `IPAW.R` document the approach we address missing data and attrition. See more details in our paper.
+* `01 prepare`: the three files clean the raw `precarious.csv` data and produce the final output `master_01.csv` in our analysis. Most operations we described in the paper are included in `prepare data.R`. `IPAW.R` document the approach we address missing data and attrition. See more details in the Appendix of our paper.
 
-* `02 OLS and LDV` and `03 CLPMFE`: the two folders include the execution of our main econometric models.
+* `02 OLS and LDV` and `03 CLPMFE`: the two folders include the execution of our main models. For a preliminary investigation of results that is consistent with our main results based on CLPM-FE model, controls may be excluded to faciliate model convergence. 
 
-* `04 HPC`: the folder includes the batch file to be sent to any HPC platforms. These codes and an HPC platform are needed as the CLPM-FE model we described in our paper requires 3-24 hours of computation with 16 CPU cores.   
+* `04 HPC`: the folder includes the batch file to be sent to any HPC platforms. These codes and an HPC platform are needed as the CLPM-FE model we described in our paper requires about 30 hours of computation with 16 CPU cores.   
 
 ### Results
 
-* The `results` folder includes the main estimates from the CLPM-FE model, as the original outputs are in text format from the HPC. The OLS and LDV results, by contrast, can be obtained from `R` codes in `02 OLS/LDV` directly. 
+* The `results` folder includes the main estimates from the CLPM-FE model, as the original outputs are in text format from the HPC. The OLS and LDV results can be directly obtained from `R` codes in `02 OLS and LDV` directly. 
 
 

@@ -10,8 +10,11 @@ library(dplyr)
 setwd("/scratch/wj2068/precarious")
 df <- read.csv("master_01.csv")
 
+## copy
+df_dpm <- df
+
 ## within-industry change
-df <- df %>%
+df_dpm <- df_dpm %>%
   group_by(industry) %>%
   mutate(education = education - mean(education,na.rm=T),
          income = income - mean(income,na.rm=T),
@@ -21,11 +24,15 @@ df <- df %>%
          union = union - mean(union,na.rm=T),
          injill = injill - mean(injill, na.rm=T),
          spouse.exist = spouse.exist - mean(spouse.exist, na.rm=T),
-         hourly = hourly - mean(hourly, na.rm=T)
+         hourly = hourly - mean(hourly, na.rm=T),
+         precarious = precarious - mean(precarious, na.rm=T),
+         Lz = Lz - mean(Lz, na.rm=T),
+         ghealth = ghealth - mean(ghealth, na.rm=T),
+         mental.pc.index = mental.pc.index - mean(mental.pc.index, na.rm=T)
   )
 
 ## within-occupation change
-df <- df %>%
+df_dpm <- df_dpm %>%
   group_by(occupation) %>%
   mutate(education = education - mean(education,na.rm=T),
          income = income - mean(income,na.rm=T),
@@ -35,13 +42,16 @@ df <- df %>%
          union = union - mean(union,na.rm=T),
          injill = injill - mean(injill, na.rm=T),
          spouse.exist = spouse.exist - mean(spouse.exist, na.rm=T),
-         hourly = hourly - mean(hourly, na.rm=T)
+         hourly = hourly - mean(hourly, na.rm=T),
+         precarious = precarious - mean(precarious, na.rm=T),
+         Lz = Lz - mean(Lz, na.rm=T),
+         ghealth = ghealth - mean(ghealth, na.rm=T),
+         mental.pc.index = mental.pc.index - mean(mental.pc.index, na.rm=T)
   )
 
-df <- df %>% ungroup()
+df_dpm <- df_dpm %>% ungroup()
 
 ## transform the data to be analyzed by the dpm package
-df_dpm <- df
 df_dpm[which(df_dpm$year==2011),"year"]<-1
 df_dpm[which(df_dpm$year==2013),"year"]<-2
 df_dpm[which(df_dpm$year==2015),"year"]<-3
@@ -59,7 +69,7 @@ df_dpm[which(df_dpm$race == 3), "race_mixed"] <- 1
 df_dpm$race_white <- 0
 df_dpm[which(df_dpm$race == 4), "race_white"] <- 1
 
-## create controls, including dummies for industry but not occupation
+## create controls
 controls <-
   c("lag(education)","education",
     "lag(income)","income",

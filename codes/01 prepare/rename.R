@@ -489,7 +489,7 @@ df <- df %>% rename(emotion_2009 = T4573500,
                     emotion_2019 = U4368700)
 
 ## general mental health in 2019
-df <- df %>% rename(mental_2019 = U4370900)
+df <- df %>% rename(mental_2019 = U3455400)
 
 ## spouse work notice and decision
 df <- df %>% rename(spouse.schedule.notice.out_2011 = T7385200,

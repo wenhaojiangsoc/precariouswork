@@ -15,18 +15,20 @@ library(ltm)
 library(mirt)
 library(psych)
 library(fastDummies)
-library(analyze.stuff)
+library(matrixStats)
 
+#~#~#~#~#~#~#~#~#~#~#~#~#~
+###### Prepare File ###### 
+#~#~#~#~#~#~#~#~#~#~#~#~#~
 
-##################
-###Prepare File###
-##################
+## set working directory
+setwd("/Users/wenhao/Library/CloudStorage/Dropbox/RA Linsey/github_share")
 
 ## read file
-df <- read.csv("~/Dropbox/RA Linsey/NLSY97/precarious/Data Source/precarious.csv")
+df <- read.csv("data source/precarious.csv")
 
 ## rename variables - source code manually created and omitted
-source("~/Dropbox/RA Linsey/NLSY97/precarious/Codes/rename.R")
+source("codes/01 prepare/rename.R")
 
 ## transform the format from wide to long, allowing unbalance
 dfL <- melt(df, id.vars="ID")
@@ -46,9 +48,12 @@ df <- df[which(!is.na(df$year)),]
 ## check the # of total obs.
 dim(df) # 170696 person-years (19 rounds * 8984 ind.)
 
-#########################
-###Spouse and Marriage###
-#########################
+## create age
+df$age <- df$year-df$birth.year
+
+#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#
+###### Spouse and Marriage ###### 
+#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#
 
 ## locate spouse
 for (i in seq(1,8,1)){
@@ -102,9 +107,9 @@ for (i in seq(1,8,1)){
 df$marriage <- 0
 df[which(!is.na(df$relation)), "marriage"] <- 1
 
-#####################################
-###Children (existence and number)###
-#####################################
+#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#
+###### Children (existence and number) ######
+#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#
 
 ## locate children
 df$relation <- NA
@@ -137,9 +142,9 @@ df$nchild <- as.numeric(df$year - df$child1 >= 0) +
   as.numeric(df$year - df$child10 >= 0) +
   as.numeric(df$year - df$child11 >= 0)
 
-#########################
-###R and Spouse Income###
-#########################
+#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#
+###### R and Spouse Income ######
+#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#
 
 ## create income
 df[which(is.na(df$income) & df$est.income == 1), "income"] <- 2500
@@ -161,111 +166,24 @@ df[which(is.na(df$spouse.income) & df$est.spouse.income == 6), "spouse.income"] 
 df[which(is.na(df$spouse.income) & df$est.spouse.income == 7), "spouse.income"] <- 250000
 df$spouse.income <- log(df$spouse.income + 1)
 
-#######################
-###Health Indicators###
-#######################
+#~#~#~#~#~#~#~#~#~#~#~#~#~#~#
+##### Health Indicators #####
+#~#~#~#~#~#~#~#~#~#~#~#~#~#~#
 
-## adjust all mental & general health and health habit variables to be in the same direction
+## adjust mental & general health variables to be in the same direction
 ## lower values mean worse health
-df$happy <- 5-df$happy
-df$calm <- 5-df$calm
 df$ghealth <- 6-df$ghealth
-df$emotion <- 7-df$emotion
+df$emotion <- 6-df$emotion
+df$mental.pc.index <- df$emotion
 
-## principal components analysis
-pca <- princomp(df[which(df$year >= 2015 & df$year <= 2019), 
-                    c("blue", "depressed","nervous",
-                      "happy", "calm")][complete.cases(df[which(df$year >= 2015 &
-                                                                  df$year <= 2019), 
-                                                          c("blue", "depressed","nervous",
-                                                            "happy", "calm")]), ], 
-                 cor=TRUE, scores=TRUE)
-
-pca_data <-
-  data.frame(
-    dimension = seq(1,5,1),
-    percent = rep(NA,5)
-  )
-
-for (i in 1:5){
-  pca_data[i,"percent"] <- pca$sdev[i]^2/(pca$sdev[1]^2+pca$sdev[2]^2+pca$sdev[3]^2+pca$sdev[4]^2+pca$sdev[5]^2)
-}
-
-## Biplot
-# as.data.frame(pca$score[,1:2]) %>%
-  # ggplot(aes(x=Comp.1/6,y=Comp.2/6)) +
-  #geom_point(color="blue3", size = 1, alpha = 0.5) +
-ggplot(pca_data) +
-  geom_segment(aes(x = 0, y = 0, xend = pca$loadings[1,1], yend = pca$loadings[1,2]), ## blue
-                 arrow = arrow(length = unit(0.15, "cm")), color = "red3") +
-  annotate("text", x = pca$loadings[1,1] + 0.07, y = pca$loadings[1,2], label = "blue", family = "Times", size = 6, color = "red3") +
-  geom_segment(aes(x = 0, y = 0, xend = pca$loadings[2,1], yend = pca$loadings[2,2]), ## depressed
-               arrow = arrow(length = unit(0.15, "cm")), color = "red3") +
-  annotate("text", x = pca$loadings[2,1] + 0.12, y = pca$loadings[2,2] + 0.02, label = "depressed", family = "Times", size = 6, color = "red3") +
-  geom_segment(aes(x = 0, y = 0, xend = pca$loadings[3,1], yend = pca$loadings[3,2]), ## nervous
-               arrow = arrow(length = unit(0.15, "cm")), color = "red3") +
-  annotate("text", x = pca$loadings[3,1] + 0.1, y = pca$loadings[3,2], label = "nervous", family = "Times", size = 6, color = "red3") +
-  geom_segment(aes(x = 0, y = 0, xend = pca$loadings[4,1], yend = pca$loadings[4,2]), ## happy
-               arrow = arrow(length = unit(0.15, "cm")), color = "blue3") +
-  annotate("text", x = pca$loadings[4,1] + 0.09, y = pca$loadings[4,2] + 0.01, label = "happy", family = "Times", size = 6, color = "blue3") +
-  geom_segment(aes(x = 0, y = 0, xend = pca$loadings[5,1], yend = pca$loadings[5,2]), ## calm
-               arrow = arrow(length = unit(0.15, "cm")), color = "blue3") +
-  annotate("text", x = pca$loadings[5,1] + 0.07, y = pca$loadings[5,2], label = "calm", family = "Times", size = 6, color = "blue3") +
-  theme_bw() + 
-  xlim(-0.2,0.7) +
-  ylim(-0.8,0.8) +
-  theme(text=element_text(family="Times")) +
-  xlab("First Principal Component") +
-  ylab("Second Principal Component") +
-  theme(text=element_text(family="Times",size=14),
-        axis.text.x = element_text(size=12),
-        axis.text.y=element_text(size=12),
-        axis.title = element_text(size=16))
-
-## ggsave("/Users/wenhao/Library/CloudStorage/Dropbox/RA Linsey/NLSY97/precarious/Writings/Plots/PCA_2.png", width = 13, height = 13, units = "cm")
-
-## plot PCA
-ggplot(pca_data,aes(x=dimension,y=percent*100)) +
-  stat_summary(fun = "mean", geom = "bar", color="red3", fill="red3") +
-  theme_bw() + theme(text=element_text(family="Times")) + 
-  scale_y_continuous(breaks=seq(0,60,10)) +
-  ylab("Percent of Explained Variance") +
-  xlab("Dimension") +
-  theme(text=element_text(family="Times",size=14),
-        axis.text.x = element_text(size=12),
-        axis.text.y=element_text(size=12),
-        axis.title = element_text(size=16))
-
-## ggsave("/Users/wenhao/Library/CloudStorage/Dropbox/RA Linsey/NLSY97/precarious/Writings/Plots/PCA.png", width = 13, height = 13, units = "cm")
-
-## use the first principal component as the index
-df$mental.pc.index <- NA
-df[which(df$year >= 2015 & df$year <= 2019), 
-   "mental.pc.index"][complete.cases(df[which(df$year >= 2015 & 
-                                                df$year <= 2019), 
-                                        c("blue", "depressed","nervous",
-                                          "happy", "calm")]), ] <- pca$scores[, 1]
-
-## supplement 2019 mental health indicator (as missingness is significant) by the general question of mental health
-df$mental <- 4-df$mental
-
-df[which(is.na(df$mental.pc.index)&df$year==2019),"mental.pc.index"] <-
-  scale(df[which(is.na(df$mental.pc.index)&df$year==2019),]$mental)[,1]
-
-##############################
-###Precarious work schedule###
-##############################
+#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~
+###### Precarious work schedule ######
+#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~
 
 ## because info. about precarious work arrangement is only available since 2011
 ## the data is restricted to the waves after 2011 (2011, 2013, 2015, 2017 and 2019)
 ## preserve 2010 to deal with attrition prediction later
 df <- df %>% filter(year >= 2009)
-
-## drop military employment
-df <- df %>% filter(military != 1 | is.na(military))
-
-## drop self-employment
-df <- df %>% filter(self.employ != 1 | is.na(self.employ))
 
 ## adjust schedule notice for 2017 and 2019 survey to make it consistent with other years
 df[which(df$schedule.notice.A <= 12 & df$year == 2017), "schedule.notice.A"] <- 1
@@ -333,17 +251,22 @@ df[which((!is.na(df$fewest.hours.A) | !is.na(df$fewest.hours.B) |
 ), "precarious"] <- 0 ## this procedure also drops unemployed Rs
 
 ## create universal fewest hours
-df[which(df$precarious == 0), "fewest.hours"] <- rowMins(cbind(
-  df[which(df$precarious == 0), "fewest.hours.A"], 
-  df[which(df$precarious == 0), "fewest.hours.B"],
-  df[which(df$precarious == 0), "fewest.hours.C"], 
-  df[which(df$precarious == 0), "fewest.hours.D"]), na.rm=T)
+df[which(df$precarious == 0), "fewest.hours"] <- rowMins(as.matrix(
+  cbind(
+    df[which(df$precarious == 0), "fewest.hours.A"], 
+    df[which(df$precarious == 0), "fewest.hours.B"],
+    df[which(df$precarious == 0), "fewest.hours.C"], 
+    df[which(df$precarious == 0), "fewest.hours.D"])
+), na.rm=T)
 ## create universal most hours
-df[which(df$precarious == 0), "most.hours"] <- rowMaxs(cbind(
+df[which(df$precarious == 0), "most.hours"] <- rowMaxs(
+  as.matrix(
+    cbind(
   df[which(df$precarious == 0), "most.hours.A"], 
   df[which(df$precarious == 0), "most.hours.B"],
   df[which(df$precarious == 0), "most.hours.C"], 
-  df[which(df$precarious == 0), "most.hours.D"]), na.rm=T)
+  df[which(df$precarious == 0), "most.hours.D"])
+  ), na.rm=T)
 
 ## create 0 for all indicators
 df[which(df$precarious == 0), "fluctuation"] <- 0
@@ -380,6 +303,41 @@ df[which(rowMins(cbind(df$schedule.decision.A,
                          df$schedule.decision.C, 
                          df$schedule.decision.D), na.rm = T) == 5),"control"] <- 1
 
+## impute 2019's schedule decision by linear extrapolation
+df <- df %>%
+  group_by(ID) %>%
+  group_modify(~ {
+    dat <- .x
+    ## drop NA control
+    dat_non_na <- dat %>% filter(!is.na(control))
+    ## if fewer than 2 points, cannot extrapolate
+    if (nrow(dat_non_na) < 2) return(dat)
+    ## fit linear model
+    fit <- lm(control ~ year, data = dat_non_na)
+    ## if 2019 exists and is NA, extrapolate
+    dat <- dat %>%
+      mutate(control = if_else(
+        year == 2019 & is.na(control),
+        control[year==2017],
+        control
+      ))
+    dat <- dat %>%
+      mutate(control = case_when(
+        year == 2019 & control < 0.5 ~ 0,
+        year == 2019 & control >= 0.5 ~ 1,
+        .default = control
+      ))
+
+    return(dat)
+  }) %>%
+  ungroup()
+
+## drop military employment
+df <- df %>% filter(military != 1 | is.na(military))
+
+## drop self-employment
+df <- df %>% filter(self.employ != 1 | is.na(self.employ))
+
 ## recode schedule decision to prepare for PCA precarious
 df[which(df$schedule.decision.A==5),"schedule.decision.A"] <- 0
 df[which(df$schedule.decision.B==5),"schedule.decision.B"] <- 0
@@ -392,9 +350,9 @@ df[which(df$precarious == 0), "schedule.decision"] <-
                 df[which(df$precarious == 0),]$schedule.decision.C,
                 df[which(df$precarious == 0),]$schedule.decision.D), na.rm=T)
 
-#########################################
-###Synthesize Precarious work schedule###
-#########################################
+#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#
+###### Synthesize Precarious work schedule ######
+#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#
 
 ## create a 0-3 scale of precarious work schedule - summative index
 df[which(df$precarious == 0), "precarious"] <- 
@@ -414,9 +372,9 @@ irtsyn <- irtsyn %>% dplyr::select(fluctuation,predictability,control,z1) %>%
 ## merge with original df and create a synthesized measurement
 df <- merge(df, irtsyn, by=c("fluctuation","predictability","control"), all.x=T)
 
-######################
-###Spouse Precarity###
-######################
+#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~
+###### Spouse Precarity ######
+#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~
 
 ## identify if the spouse is also in precarity
 df$spouse.precarious <- 0
@@ -436,9 +394,9 @@ df[which(df$spouse.precarious == 0), "spouse.precarious"] <-
 df[which(df$spouse.precarious<=1), "spouse.precarious"] <- 0
 df[which(df$spouse.precarious==2), "spouse.precarious"] <- 1
 
-################
-###Industries###
-################
+#~#~#~#~#~#~#~#~#~#~#~#~
+###### Industries ######
+#~#~#~#~#~#~#~#~#~#~#~#~
 
 ## create industries for R using 2020 census 4-digit
 df[which(df$ind >= 170 & df$ind <= 290), "industry"] <- 1 ## agriculture, forestry and fisheries
@@ -460,9 +418,9 @@ df[which(df$ind >= 9370 & df$ind <= 9590), "industry"] <- 16 ## public administr
 df[which(df$ind >= 9670 & df$ind <= 9890), "industry"] <- 17 ## military
 df[which(df$ind >= 9950 & df$ind <= 9990), "industry"] <- 18 ## ACS special codes
 
-##############################
-###Create Occupation Groups###
-##############################
+#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~
+###### Create Occupation Groups ######
+#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~
 df <-
   df %>% mutate(
     occupation = case_when(occ>=10 & occ<=430 ~ "executive",
@@ -501,21 +459,18 @@ df <-
                            
     ))
 
-#######################
-###Attrition Weights###
-#######################
-
-## create age
-df$age <- df$year-df$birth.year
+#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#
+###### Attrition Weights ######
+#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#
 
 ## create weight
-source("~/Dropbox/RA Linsey/NLSY97/precarious/Codes/IPAW.R")
+source("codes/01 prepare/IPAW.R")
 
 ## preserve weight
 df[which(is.na(df$sw)),"sw"] <- 1
 
 ## merge with original person weight
-weight <- read.csv("~/Dropbox/RA Linsey/NLSY97/precarious/Cleaned Data/weight.csv")
+weight <- read.csv("data cleaned/weight.csv")
 
 weight <- weight %>% rename(weight_1997 = R1236201,
                             weight_1998 = R2600401,
@@ -571,44 +526,43 @@ df <- df[, -which(names(df) %in% c("T8116500","T8117500","T8123801","T8123901",
                  "U3439101","T8124601","T8124701","U3438701"))]
 
 ## remove residual datasets
-rm(IRTmodel,irtsyn,pca,i,member,weight)
+rm(IRTmodel,pca,i,member,weight)
 
-##########################
-###Create Education Dum###
-##########################
+#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~
+###### Create Education Dummy ######
+#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~
+
 df[which(df$education==95),"education"]<-NA
 df[which(df$education<12),"edu_cat"] <- 0 #BLHS
 df[which(df$education==12),"edu_cat"] <- 1 #HS
 df[which(df$education>12&df$education<16),"edu_cat"] <- 2 #SMC
 df[which(df$education>=16),"edu_cat"] <- 3 #CH
 
-
-##########################
-###Create Variable Lags###
-##########################
+#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~
+###### Create Variable Lags ######
+#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~
 
 df <-
   df %>%
   group_by(ID) %>%
   tidyr::complete(year = min(year):max(year)) %>% 
-  mutate(lag.precarious = if_else(year - lag(year, 2) == 2, 
-                                  lag(precarious, 2), 
+  dplyr::mutate(lag.precarious = if_else(year - lag(year, 2) == 2, 
+                                         dplyr::lag(precarious, 2), 
                                   NA_real_)) %>% 
   complete(year = min(year):max(year)) %>% 
-  mutate(lag.Lz = if_else(year - lag(year, 2) == 2, 
-                          lag(Lz, 2), 
+  dplyr::mutate(lag.Lz = if_else(year - lag(year, 2) == 2, 
+                                 dplyr::lag(Lz, 2), 
                           NA_real_)) %>%
   complete(year = min(year):max(year)) %>% 
-  mutate(lag.ghealth = if_else(year - lag(year, 2) == 2, 
-                          lag(ghealth, 2), 
+  dplyr::mutate(lag.ghealth = if_else(year - lag(year, 2) == 2, 
+                                      dplyr::lag(ghealth, 2), 
                           NA_real_)) %>%
   complete(year = min(year):max(year)) %>% 
-  mutate(lag.mental.pc.index = if_else(year - lag(year, 2) == 2, 
-                               lag(mental.pc.index, 2), 
+  dplyr::mutate(lag.mental.pc.index = if_else(year - lag(year, 2) == 2, 
+                                              dplyr::lag(mental.pc.index, 2), 
                                NA_real_)) %>% 
-  filter(year==2011|year==2013|year==2015|year==2017|year==2019)
+  dplyr::filter(year==2011|year==2013|year==2015|year==2017|year==2019)
 df <- df %>% filter(!is.na(birth.year))
-
 
 df %>%
   group_by(year) %>%
@@ -622,13 +576,11 @@ df %>%
          p2=p2/total,
          p3=p3/total)
 
-
-#############################################
-################Inspect Data#################
-#############################################
+#~#~#~#~#~#~#~#~#~#~#~#~#~
+###### Inspect Data ######
+#~#~#~#~#~#~#~#~#~#~#~#~#~
 
 ## Table 2 - descriptive
-
 df %>% filter(year>=2011&!is.na(industry)&!is.na(precarious_dummy)) %>%
   group_by(industry) %>%
   summarize(total = n()/18618,
@@ -646,7 +598,7 @@ df %>% filter(year>=2011&!is.na(industry)&!is.na(precarious_dummy)) %>%
   filter(!is.na(delta_ghealth)&industry!=17) %>%
   arrange(desc(precarious))
 
-
+## drop duplicates
 df %>% filter(year>=2011&!is.na(industry)&!is.na(precarious_dummy)&!is.na(mental.pc.index)) %>%
   distinct(ID)
 
@@ -757,11 +709,11 @@ df %>%
   summarize(mean=mean(Lz),
             n=n())
 
-#############################################
-###Standardize, Scale and Center Variables###
-#############################################
+#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#
+###### Standardize, Scale and Center Variables ######
+#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#
 
-# standardize and scale and center
+## standardize, scale, and center
 df_st <-
   cbind(df$ID,df$year, df$sw, df$race,df$sex, df$industry, df$edu_cat, df$occupation,
         scale(df[,c("ghealth","mental.pc.index", "precarious","education",
@@ -775,9 +727,9 @@ df_st <-
 df_st <- as.data.frame(df_st)
 colnames(df_st)[1:8] <- c("ID", "year", "sw", "race","sex","industry","edu_cat","occupation")
 
-####################
-###Export Dataset###
-####################
+#~#~#~#~#~#~#~#~#~#~#~
+### Export Dataset ###
+#~#~#~#~#~#~#~#~#~#~#~
 
-write.csv(df_st,"/Users/wenhao/Dropbox/RA Linsey/NLSY97/precarious/Cleaned Data/master_01.csv",
+write.csv(df_st,"/Users/wenhao/Library/CloudStorage/Dropbox/RA Linsey/github_share/data cleaned/master_01.csv",
           row.names = FALSE)
