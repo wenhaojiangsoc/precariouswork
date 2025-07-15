@@ -1,6 +1,6 @@
 # Bad Health, Bad Jobs
 
-Repository for replication codes and data for the paper *Bad Health, Bad Jobs*, currently under review.
+Repository for replication codes and data for the paper *Bad Health, Bad Jobs*, co-authored with [Linsey Edwards](https://as.nyu.edu/faculty/linsey-edwards.html), currently under review.
 
 ## Overview about the Repository
 
