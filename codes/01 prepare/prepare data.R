@@ -280,6 +280,7 @@ df[which(df$reg.work.hours!=0),"pctloss"] <-
   df[which(df$reg.work.hours!=0),"fewest.hours"])/df[which(df$reg.work.hours!=0),"reg.work.hours"]
 df[which((df$precarious == 0) & (df$fewest.hours != df$reg.work.hours) &
            (df$fewest.hours != df$most.hours) & (df$pctloss>=0.25)), "fluctuation"] <- 1
+table(df$fluctuation)
 
 ## identify schedule unpredictability if R's schedule notice is within 1 week
 df[which((df$precarious == 0) & (rowMaxs(cbind(df$schedule.notice.A,
@@ -308,29 +309,58 @@ df <- df %>%
   group_by(ID) %>%
   group_modify(~ {
     dat <- .x
-    ## drop NA control
     dat_non_na <- dat %>% filter(!is.na(control))
+
     ## if fewer than 2 points, cannot extrapolate
     if (nrow(dat_non_na) < 2) return(dat)
-    ## fit linear model
-    fit <- lm(control ~ year, data = dat_non_na)
-    ## if 2019 exists and is NA, extrapolate
+
+    ## fit linear model using past data
+    fit <- lm(control ~ year + fluctuation + predictability, data = dat_non_na)
+
+    ## predict for missing 2019 if needed
     dat <- dat %>%
       mutate(control = if_else(
-        year == 2019 & is.na(control),
-        control[year==2017],
+        year == 2019 & control == 0,
+        {
+          row_2019 <- dat %>% filter(year == 2019)
+          if (nrow(row_2019) == 1) {
+            pred <- predict(fit, newdata = row_2019)
+            as.integer(pred > 0)
+          } else {
+            0
+          }
+        },
         control
-      ))
-    dat <- dat %>%
-      mutate(control = case_when(
-        year == 2019 & control < 0.5 ~ 0,
-        year == 2019 & control >= 0.5 ~ 1,
-        .default = control
       ))
 
     return(dat)
   }) %>%
   ungroup()
+
+## using 2017 response produces very similar results 
+# df <- df %>%
+#   group_by(ID) %>%
+#   mutate(control = if_else(
+#     year == 2019 & is.na(control),
+#     control[year == 2017],
+#     control
+#   )) %>%
+#   ungroup()
+
+## impute 2019 data by using the most recent non-missing value from previous years for the same individual
+## also produces very similar results
+# df <- df %>%
+#   arrange(ID, year) %>%                ## ensure rows are ordered
+#   group_by(ID) %>%
+#   mutate(control_filled = control) %>%
+#   fill(control_filled, .direction = "down") %>%  ## fill from earlier years
+#   mutate(control = if_else(
+#     year == 2019 & is.na(control),
+#     control_filled,
+#     control
+#   )) %>%
+#   dplyr::select(-control_filled) %>%
+#   ungroup()
 
 ## drop military employment
 df <- df %>% filter(military != 1 | is.na(military))
@@ -349,6 +379,32 @@ df[which(df$precarious == 0), "schedule.decision"] <-
                 df[which(df$precarious == 0),]$schedule.decision.B,
                 df[which(df$precarious == 0),]$schedule.decision.C,
                 df[which(df$precarious == 0),]$schedule.decision.D), na.rm=T)
+
+#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~
+###### Descriptive of precarious schedule ######
+#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~
+
+## the proportion with fewer than 1 week and more than 3 week schedule notice
+dim(df[which((df$precarious == 0) & 
+               (rowMins(cbind(df$schedule.notice.A,
+                              df$schedule.notice.B,
+                              df$schedule.notice.C,
+                              df$schedule.notice.D), na.rm=T)==1)), ])[1]/dim(
+                                df[which(df$precarious == 0), ]
+                              )[1]
+dim(df[which((df$precarious == 0) & 
+               (rowMins(cbind(df$schedule.notice.A,
+                              df$schedule.notice.B,
+                              df$schedule.notice.C,
+                              df$schedule.notice.D), na.rm=T)>=4)), ])[1]/dim(
+                                df[which(df$precarious == 0), ]
+                              )[1]
+
+## proportion of work fluctuation
+table(df$fluctuation)
+
+## proportion of schedule control
+table(df$control)
 
 #~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#
 ###### Synthesize Precarious work schedule ######
@@ -523,7 +579,8 @@ df <- df[, -which(names(df) %in% c("T8116500","T8117500","T8123801","T8123901",
                  "U1839501","U1839601","U1839701","U3438101",
                  "U3438201","U3438301","U3438401","U3438501",
                  "U3438601","U3438801","U3438901","U3439001",
-                 "U3439101","T8124601","T8124701","U3438701"))]
+                 "U3439101","T8124601","T8124701","U3438701",
+                 "U4370900"))]
 
 ## remove residual datasets
 rm(IRTmodel,pca,i,member,weight)
@@ -554,7 +611,9 @@ df <-
   dplyr::filter(year==2011|year==2013|year==2015|year==2017|year==2019)
 df <- df %>% filter(!is.na(birth.year))
 
+## check distribution of precarious work indices
 df %>%
+  ungroup() %>%
   group_by(year) %>%
   summarize(p0 = sum(precarious==0,na.rm=T),
             p1 = sum(precarious==1,na.rm=T),
@@ -566,11 +625,52 @@ df %>%
          p2=p2/total,
          p3=p3/total)
 
+## within and pooled variation
+mean(
+  df %>%
+    group_by(ID) %>%
+    summarise(sd = sd(precarious,na.rm=T)) %>%
+    pull(sd),
+  na.rm=T
+)
+
+mean(
+  df %>%
+    ungroup() %>%
+    summarise(sd = sd(precarious,na.rm=T)) %>%
+    pull(sd),
+  na.rm=T
+)
+
+## proportion of unique workers
+df %>%
+  ungroup() %>%
+  summarize(count3=length(unique(ID[precarious==3])),
+            count2=length(unique(ID[precarious==2])),
+            count1=length(unique(ID[precarious==1])),
+            count0=length(unique(ID[precarious==0])),
+            count=length(unique(ID[!is.na(precarious)]))) %>%
+  mutate(p0=count0/count,
+         p1=count1/count,
+         p2=count2/count,
+         p3=count3/count)
+
+## relation between summative and IRT
+df %>%
+  filter(!is.na(precarious)) %>%
+  group_by(sex, precarious) %>%
+  summarize(IRT=weighted.mean(Lz,sw,na.rm=T),
+            share=sum(sw,na.rm=T)) %>%
+  group_by(sex) %>%
+  mutate(total=sum(share,na.rm=T),
+         share=share/total) %>%
+  dplyr::select(-total)
+
 #~#~#~#~#~#~#~#~#~#~#~#~#~
 ###### Inspect Data ######
 #~#~#~#~#~#~#~#~#~#~#~#~#~
 
-## Table 2 - descriptive
+## Table 2 - descriptive by industry
 df %>% filter(year>=2011&!is.na(industry)&!is.na(precarious_dummy)) %>%
   group_by(industry) %>%
   summarize(total = n()/18618,
@@ -588,8 +688,8 @@ df %>% filter(year>=2011&!is.na(industry)&!is.na(precarious_dummy)) %>%
   filter(!is.na(delta_ghealth)&industry!=17) %>%
   arrange(desc(precarious))
 
-## drop duplicates
-df %>% filter(year>=2011&!is.na(industry)&!is.na(precarious_dummy)&!is.na(mental.pc.index)) %>%
+## number of observations
+df %>% filter(year>=2011&!is.na(industry)&!is.na(precarious_dummy)&!is.na(ghealth)) %>%
   distinct(ID)
 
 ## Table 2 - t.test
@@ -602,13 +702,42 @@ industry <- df %>% filter(year>=2011&!is.na(industry)&!is.na(precarious_dummy)) 
 industry <- industry[,1]
 ttest <- data.frame(industry = industry[1:16],
                     tvalue = NA)
+library(weights)
 for (i in industry[1:16]){
   ## t test 
   ttest[which(ttest$industry == i), "tvalue"] <-
-    try({t.test(df[which(df$year>=2011&df$industry==i&df$precarious_dummy==0),"mental.pc.index"],
-                df[which(df$year>=2011&df$industry==i&df$precarious_dummy==1),"mental.pc.index"])$p.value})
+    try({wtd.t.test(df[which(df$year>=2011&df$industry==i&df$precarious_dummy==0&!is.na(df$mental.pc.index)),]$mental.pc.index,
+                df[which(df$year>=2011&df$industry==i&df$precarious_dummy==1&!is.na(df$mental.pc.index)),]$mental.pc.index,
+                weight=df[which(df$year>=2011&df$industry==i&df$precarious_dummy==0&!is.na(df$mental.pc.index)),]$sw,
+                weighty=df[which(df$year>=2011&df$industry==i&df$precarious_dummy==1&!is.na(df$mental.pc.index)),]$sw)$coefficients[3]})
 }
 print(ttest)
+
+## detailed schedule quality of certain industries
+
+## construction
+
+weighted.mean(df[which(df$industry==4),]$control,
+              df[which(df$industry==4),]$sw,na.rm=T)
+weighted.mean(df[which(df$industry==4),]$predictability,
+              df[which(df$industry==4),]$sw,na.rm=T)
+weighted.mean(df[which(df$industry==4),]$fluctuation,
+              df[which(df$industry==4),]$sw,na.rm=T)
+
+weighted.mean(df[which(df$industry==1),]$control,
+              df[which(df$industry==1),]$sw,na.rm=T)
+weighted.mean(df[which(df$industry==1),]$predictability,
+              df[which(df$industry==1),]$sw,na.rm=T)
+weighted.mean(df[which(df$industry==1),]$fluctuation,
+              df[which(df$industry==1),]$sw,na.rm=T)
+
+
+weighted.mean(df[which(df$industry==9),]$control,
+              df[which(df$industry==9),]$sw,na.rm=T)
+weighted.mean(df[which(df$industry==9),]$predictability,
+              df[which(df$industry==9),]$sw,na.rm=T)
+weighted.mean(df[which(df$industry==9),]$fluctuation,
+              df[which(df$industry==9),]$sw,na.rm=T)
 
 ## Table 3 descriptives of variables by precarious status
 df[which(df$urban==2),"urban"] <- 0 ## impute missing urban by rural
@@ -630,7 +759,7 @@ dummy_cols(df[,c("sex","age","race","region","income",
   describe(fast=T) %>%
   print(digits=3)
 
-## t test
+## table 1 - t test
 for (v in c("sex","age","race_4","race_1","race_2","race_3",
             "region_1","region_2","region_3","region_4","income",
             "union","hourly","spouse.exist","child.exist","spouse.precarious",
@@ -649,7 +778,7 @@ for (v in c("sex","age","race_4","race_1","race_2","race_3",
   )
 }
 
-## table 4 descriptive by gender
+## table 1 descriptive (by gender)
 dummy_cols(df[,c("sex","age","race","region","income",
                  "union","spouse.exist","child.exist","spouse.precarious",
                  "urban","education","hourly","precarious_dummy",
@@ -658,7 +787,7 @@ dummy_cols(df[,c("sex","age","race","region","income",
            c("sex","race","region")) %>%
   ungroup() %>%
   dplyr::filter(!is.na(precarious_dummy)) %>%
-  dplyr::filter(sex==2) %>%
+  dplyr::filter(sex==1) %>%
   dplyr::select(sex,age,race_1,race_2,race_3,race_4,
                 region_1,region_2,region_3,region_4,
                 income,union,spouse.exist,child.exist,
@@ -694,7 +823,7 @@ for (v in c("age","race_4","race_1","race_2","race_3",
 df %>%
   filter(!is.na(precarious_dummy)) %>%
   group_by(sex,precarious) %>%
-  summarize(mean=mean(Lz),
+  summarize(mean=weighted.mean(Lz,sw),
             n=n())
 
 #~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#~#

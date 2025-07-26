@@ -19,7 +19,9 @@ results <- results %>%
     direction == "causation" ~ "health effect"
   ))
 
-######## General Health ########
+##### Main Figures Main Variable Coefficients ######
+
+#### General Health ####
 
 general_full <-
   results %>%
@@ -148,7 +150,7 @@ general_female <-
   scale_color_manual(values=c("blue3","grey50")) +
   coord_flip() +
   xlab("Measure of Precarity") +
-  ylim(-0.3,0.08) +
+  ylim(-0.35,0.08) +
   ylab("") +
   theme_classic() +
   ggtitle("Female Sample") +
@@ -204,9 +206,8 @@ mental_full <- results %>%
   geom_point(aes(x = measure, 
                  y = coef), position=position_dodge(width=0.4),
              size = 3.5) + 
-  facet_wrap(.~direction, scales = "free", ncol = 1, 
-             strip.position = "right") +
-  scale_y_continuous(expand = expansion(mult = c(0.2, 0.17))) +
+  facet_grid(direction~.) +
+  scale_y_continuous(expand = expansion(mult = c(0.1, 0.11))) +
   geom_errorbar(aes(ymin=coef-1.96*se, ymax=coef+1.96*se), width=0,
                 position=position_dodge(.4), lwd = 2/3) +
   scale_color_manual(values=c("blue3","grey50")) +
@@ -257,9 +258,8 @@ mental_male <-
   geom_point(aes(x = measure, 
                  y = coef), position=position_dodge(width=0.4),
              size = 3.5) + 
-  facet_wrap(.~direction, scales = "free", ncol = 1, 
-             strip.position = "right") +
-  scale_y_continuous(expand = expansion(mult = c(0.2, 0.2))) +
+  facet_grid(direction~.) +
+  scale_y_continuous(expand = expansion(mult = c(0.1, 0.1))) +
   geom_errorbar(aes(ymin=coef-1.96*se, ymax=coef+1.96*se), width=0,
                 position=position_dodge(.4), lwd = 2/3) +
   scale_color_manual(values=c("blue3","grey50")) +
@@ -310,9 +310,8 @@ mental_female <-
   geom_point(aes(x = measure, 
                  y = coef), position=position_dodge(width=0.4),
              size = 3.5) + 
-  facet_wrap(.~direction, scales = "free", ncol = 1, 
-             strip.position = "right") +
-  scale_y_continuous(expand = expansion(mult = c(0.2, 0.13))) +
+  facet_grid(direction~.) +
+  scale_y_continuous(expand = expansion(mult = c(0.1, 0.13))) +
   geom_errorbar(aes(ymin=coef-1.96*se, ymax=coef+1.96*se), width=0,
                 position=position_dodge(.4), lwd = 2/3) +
   scale_color_manual(values=c("blue3","grey50")) +
@@ -339,7 +338,7 @@ mental_female <-
   geom_text(
     aes(label = sig,
         group = time,
-        y = 0.005),
+        y = 0.05),
     position = position_dodge(width = 0.4),
     size = 5,
     hjust = 0,
@@ -353,3 +352,89 @@ ggarrange(mental_full,
           common.legend = TRUE, legend="bottom",nrow=1,ncol=3,
           labels=NULL)
 ggsave("results/figures/CLPM_mental.png", width = 23.6, height = 13.5, units = "cm")
+
+##### Appendix Figures All Variable Coefficients ######
+
+## set working directory
+setwd("/Users/wenhao/Library/CloudStorage/Dropbox/RA Linsey/github_share")
+
+## read data
+results <- read.csv("results/CLPMfull.csv")
+
+## change precarious label
+results <- results %>%
+  mutate(Variable=case_when(
+    Variable=="Lz"~"precarious",
+    Variable=="Lz (t - 1)" ~ "precarious (t - 1)",
+    .default = Variable
+  ))
+
+## change order
+results$Gender <- factor(results$Gender, levels=c("Full","Male","Female"))
+
+## change effect label
+results <- results %>%
+  mutate(Model = case_when(
+    Model == "Sorting" ~ "sorting effect",
+    Model == "Causation" ~ "health effect"
+  ))
+
+## exclude gender and race
+results <-
+  results %>%
+  filter(!Variable%in%c("sex","race_black","race_hispanic","race_mixed"))
+
+## create lag and current time
+results <- results %>%
+  mutate(
+    time = ifelse(str_detect(Variable, "\\(t - 1\\)"), "lagged", "current"),
+    Variable = str_trim(str_remove(Variable, "\\(t - 1\\)"))
+  )  %>%
+  mutate(Variable = case_when(
+   Variable=="spouse.precarious" ~ "spouse precarious",
+   Variable=="spouse.exist" ~ "have spouse",
+   Variable=="child.exist" ~ "have child",
+   Variable=="injill" ~ "injured",
+   .default = Variable
+  )) %>%
+  mutate(Variable = 
+           factor(Variable, levels=c("precarious","income","education",
+                                            "urban","union","spouse precarious",
+                                            "have spouse","have child","hourly",
+                                            "injured")))
+
+## causation effect - general health
+results %>%
+  filter(Health=="General") %>%
+  filter(Model=="health effect") %>%
+  ggplot(aes(x = factor(Variable), y = Estimate, color = time)) +
+  geom_hline(yintercept = 0, colour = "red3", lty = 2) +
+  geom_point(aes(x = Variable, 
+                 y = Estimate), position=position_dodge(width=0.4),
+             size = 3.5) + 
+  facet_grid(Measure~Gender) +
+  geom_errorbar(aes(ymin=Estimate-1.96*SE, ymax=Estimate+1.96*SE), width=0,
+                position=position_dodge(.4), lwd = 1/3) +
+  scale_color_manual(values=c("blue3","grey50")) +
+  coord_flip() +
+  xlab("Variables") +
+  scale_x_discrete(limits=rev) +
+  ylab("") +
+  theme_classic() +
+  ggtitle("Health Effect Model") +
+  labs(color = "variable temporality") +
+  theme(text = element_text(family="Times"),
+        legend.position="bottom",
+        plot.title = element_text(size=15, hjust=0.5),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        strip.background = element_blank(),
+        axis.line = element_blank(),
+        strip.text.y = element_text(size = 14, colour = "black"),
+        strip.text.x = element_text(size = 14, colour = "black"),
+        panel.border = element_rect(colour = "black", fill = NA, linewidth=0.6),
+        axis.text.y = element_text(size=15, angle=0, hjust=1),
+        axis.text.x = element_text(size=13),
+        axis.title=element_text(size=15,hjust=0.5),
+        legend.text = element_text(size=15),
+        legend.title = element_text(size=15))

@@ -1,0 +1,561 @@
+﻿Variable,Estimate,SE,Model,Measure,Health,Gender
+precarious (t - 1),-0.012,0.014,Causation,Summative,General,Full
+precarious,-0.042,0.017,Causation,Summative,General,Full
+education (t - 1),-0.014,0.011,Causation,Summative,General,Full
+education,0.026,0.013,Causation,Summative,General,Full
+income (t - 1),-0.013,0.011,Causation,Summative,General,Full
+income,0.064,0.011,Causation,Summative,General,Full
+spouse.precarious (t - 1),-0.001,0.005,Causation,Summative,General,Full
+spouse.precarious,0.004,0.006,Causation,Summative,General,Full
+spouse.exist (t - 1),-0.004,0.01,Causation,Summative,General,Full
+spouse.exist,0.007,0.01,Causation,Summative,General,Full
+child.exist (t - 1),-0.001,0.011,Causation,Summative,General,Full
+child.exist,0.012,0.012,Causation,Summative,General,Full
+hourly (t - 1),-0.002,0.006,Causation,Summative,General,Full
+hourly,-0.003,0.006,Causation,Summative,General,Full
+injill (t - 1),-0.001,0.008,Causation,Summative,General,Full
+injill,-0.105,0.009,Causation,Summative,General,Full
+urban (t - 1),-0.006,0.009,Causation,Summative,General,Full
+urban,-0.006,0.01,Causation,Summative,General,Full
+union (t - 1),-0.004,0.011,Causation,Summative,General,Full
+union,0.009,0.011,Causation,Summative,General,Full
+sex,-0.044,0.019,Causation,Summative,General,Full
+race_black,-0.028,0.023,Causation,Summative,General,Full
+race_hispanic,-0.093,0.023,Causation,Summative,General,Full
+race_mixed,-0.064,0.083,Causation,Summative,General,Full
+precarious (t - 1),0.003,0.02,Causation,Summative,General,Male
+precarious,-0.016,0.025,Causation,Summative,General,Male
+education (t - 1),-0.013,0.015,Causation,Summative,General,Male
+education,0.026,0.017,Causation,Summative,General,Male
+income (t - 1),-0.008,0.015,Causation,Summative,General,Male
+income,0.083,0.016,Causation,Summative,General,Male
+spouse.precarious (t - 1),0.001,0.009,Causation,Summative,General,Male
+spouse.precarious,0.006,0.01,Causation,Summative,General,Male
+spouse.exist (t - 1),0.014,0.015,Causation,Summative,General,Male
+spouse.exist,-0.01,0.015,Causation,Summative,General,Male
+child.exist (t - 1),0.003,0.015,Causation,Summative,General,Male
+child.exist,-0.005,0.017,Causation,Summative,General,Male
+hourly (t - 1),-0.005,0.008,Causation,Summative,General,Male
+hourly,-0.004,0.008,Causation,Summative,General,Male
+injill (t - 1),-0.013,0.013,Causation,Summative,General,Male
+injill,-0.097,0.013,Causation,Summative,General,Male
+urban (t - 1),0.003,0.014,Causation,Summative,General,Male
+urban,0.013,0.014,Causation,Summative,General,Male
+union (t - 1),-0.008,0.016,Causation,Summative,General,Male
+union,0.014,0.016,Causation,Summative,General,Male
+race_black,0.081,0.034,Causation,Summative,General,Male
+race_hispanic,-0.097,0.033,Causation,Summative,General,Male
+race_mixed,-0.133,0.109,Causation,Summative,General,Male
+precarious (t - 1),-0.028,0.019,Causation,Summative,General,Female
+precarious,-0.092,0.025,Causation,Summative,General,Female
+education (t - 1),-0.015,0.015,Causation,Summative,General,Female
+education,0.024,0.017,Causation,Summative,General,Female
+income (t - 1),-0.017,0.016,Causation,Summative,General,Female
+income,0.04,0.015,Causation,Summative,General,Female
+spouse.precarious (t - 1),0,0.007,Causation,Summative,General,Female
+spouse.precarious,0.003,0.008,Causation,Summative,General,Female
+spouse.exist (t - 1),-0.019,0.013,Causation,Summative,General,Female
+spouse.exist,0.024,0.013,Causation,Summative,General,Female
+child.exist (t - 1),-0.015,0.016,Causation,Summative,General,Female
+child.exist,0.039,0.016,Causation,Summative,General,Female
+hourly (t - 1),0,0.009,Causation,Summative,General,Female
+hourly,-0.002,0.008,Causation,Summative,General,Female
+injill (t - 1),0.008,0.01,Causation,Summative,General,Female
+injill,-0.11,0.011,Causation,Summative,General,Female
+urban (t - 1),-0.014,0.013,Causation,Summative,General,Female
+urban,-0.026,0.013,Causation,Summative,General,Female
+union (t - 1),0.001,0.016,Causation,Summative,General,Female
+union,0.007,0.016,Causation,Summative,General,Female
+race_black,-0.126,0.033,Causation,Summative,General,Female
+race_hispanic,-0.089,0.033,Causation,Summative,General,Female
+race_mixed,0.005,0.122,Causation,Summative,General,Female
+Lz (t - 1),-0.014,0.013,Causation,IRT,General,Full
+Lz,-0.013,0.015,Causation,IRT,General,Full
+education (t - 1),-0.015,0.011,Causation,IRT,General,Full
+education,0.027,0.013,Causation,IRT,General,Full
+income (t - 1),-0.012,0.011,Causation,IRT,General,Full
+income,0.066,0.011,Causation,IRT,General,Full
+spouse.precarious (t - 1),0,0.005,Causation,IRT,General,Full
+spouse.precarious,0.003,0.006,Causation,IRT,General,Full
+spouse.exist (t - 1),-0.004,0.01,Causation,IRT,General,Full
+spouse.exist,0.01,0.01,Causation,IRT,General,Full
+child.exist (t - 1),-0.001,0.011,Causation,IRT,General,Full
+child.exist,0.01,0.012,Causation,IRT,General,Full
+hourly (t - 1),-0.001,0.006,Causation,IRT,General,Full
+hourly,-0.003,0.006,Causation,IRT,General,Full
+injill (t - 1),-0.002,0.008,Causation,IRT,General,Full
+injill,-0.104,0.009,Causation,IRT,General,Full
+urban (t - 1),-0.007,0.009,Causation,IRT,General,Full
+urban,-0.006,0.01,Causation,IRT,General,Full
+union (t - 1),-0.005,0.011,Causation,IRT,General,Full
+union,0.009,0.011,Causation,IRT,General,Full
+sex,-0.043,0.019,Causation,IRT,General,Full
+race_black,-0.033,0.023,Causation,IRT,General,Full
+race_hispanic,-0.095,0.023,Causation,IRT,General,Full
+race_mixed,-0.071,0.084,Causation,IRT,General,Full
+Lz (t - 1),-0.004,0.019,Causation,IRT,General,Male
+Lz,-0.001,0.022,Causation,IRT,General,Male
+education (t - 1),-0.013,0.015,Causation,IRT,General,Male
+education,0.026,0.017,Causation,IRT,General,Male
+income (t - 1),-0.009,0.015,Causation,IRT,General,Male
+income,0.084,0.016,Causation,IRT,General,Male
+spouse.precarious (t - 1),0.001,0.009,Causation,IRT,General,Male
+spouse.precarious,0.005,0.011,Causation,IRT,General,Male
+spouse.exist (t - 1),0.013,0.015,Causation,IRT,General,Male
+spouse.exist,-0.009,0.015,Causation,IRT,General,Male
+child.exist (t - 1),0.002,0.015,Causation,IRT,General,Male
+child.exist,-0.006,0.017,Causation,IRT,General,Male
+hourly (t - 1),-0.004,0.008,Causation,IRT,General,Male
+hourly,-0.004,0.008,Causation,IRT,General,Male
+injill (t - 1),-0.013,0.013,Causation,IRT,General,Male
+injill,-0.096,0.013,Causation,IRT,General,Male
+urban (t - 1),0.003,0.014,Causation,IRT,General,Male
+urban,0.013,0.014,Causation,IRT,General,Male
+union (t - 1),-0.009,0.016,Causation,IRT,General,Male
+union,0.015,0.016,Causation,IRT,General,Male
+race_black,0.08,0.034,Causation,IRT,General,Male
+race_hispanic,-0.097,0.033,Causation,IRT,General,Male
+race_mixed,-0.136,0.109,Causation,IRT,General,Male
+Lz (t - 1),-0.02,0.018,Causation,IRT,General,Female
+Lz,-0.044,0.022,Causation,IRT,General,Female
+education (t - 1),-0.016,0.015,Causation,IRT,General,Female
+education,0.026,0.017,Causation,IRT,General,Female
+income (t - 1),-0.015,0.016,Causation,IRT,General,Female
+income,0.045,0.015,Causation,IRT,General,Female
+spouse.precarious (t - 1),0,0.007,Causation,IRT,General,Female
+spouse.precarious,0.002,0.008,Causation,IRT,General,Female
+spouse.exist (t - 1),-0.018,0.013,Causation,IRT,General,Female
+spouse.exist,0.029,0.013,Causation,IRT,General,Female
+child.exist (t - 1),-0.012,0.016,Causation,IRT,General,Female
+child.exist,0.035,0.016,Causation,IRT,General,Female
+hourly (t - 1),0.001,0.009,Causation,IRT,General,Female
+hourly,-0.003,0.008,Causation,IRT,General,Female
+injill (t - 1),0.007,0.01,Causation,IRT,General,Female
+injill,-0.11,0.011,Causation,IRT,General,Female
+urban (t - 1),-0.015,0.013,Causation,IRT,General,Female
+urban,-0.025,0.013,Causation,IRT,General,Female
+union (t - 1),-0.002,0.016,Causation,IRT,General,Female
+union,0.005,0.016,Causation,IRT,General,Female
+race_black,-0.133,0.032,Causation,IRT,General,Female
+race_hispanic,-0.094,0.033,Causation,IRT,General,Female
+race_mixed,0.003,0.125,Causation,IRT,General,Female
+general (t - 1),-0.042,0.02,Sorting,Summative,General,Full
+general,-0.07,0.025,Sorting,Summative,General,Full
+education (t - 1),0.075,0.017,Sorting,Summative,General,Full
+education,-0.046,0.017,Sorting,Summative,General,Full
+income (t - 1),0.004,0.016,Sorting,Summative,General,Full
+income,-0.057,0.019,Sorting,Summative,General,Full
+spouse.precarious (t - 1),-0.003,0.009,Sorting,Summative,General,Full
+spouse.precarious,0.045,0.01,Sorting,Summative,General,Full
+spouse.exist (t - 1),-0.007,0.015,Sorting,Summative,General,Full
+spouse.exist,-0.061,0.015,Sorting,Summative,General,Full
+child.exist (t - 1),0.003,0.017,Sorting,Summative,General,Full
+child.exist,0.072,0.018,Sorting,Summative,General,Full
+hourly (t - 1),-0.013,0.01,Sorting,Summative,General,Full
+hourly,-0.005,0.009,Sorting,Summative,General,Full
+injill (t - 1),0.001,0.012,Sorting,Summative,General,Full
+injill,-0.027,0.013,Sorting,Summative,General,Full
+urban (t - 1),0.01,0.015,Sorting,Summative,General,Full
+urban,-0.009,0.016,Sorting,Summative,General,Full
+union (t - 1),0.018,0.017,Sorting,Summative,General,Full
+union,-0.018,0.018,Sorting,Summative,General,Full
+sex,-0.036,0.021,Sorting,Summative,General,Full
+race_black,0.127,0.025,Sorting,Summative,General,Full
+race_hispanic,0.08,0.025,Sorting,Summative,General,Full
+race_mixed,0.218,0.081,Sorting,Summative,General,Full
+general (t - 1),-0.034,0.03,Sorting,Summative,General,Male
+general,-0.022,0.04,Sorting,Summative,General,Male
+education (t - 1),0.079,0.026,Sorting,Summative,General,Male
+education,-0.023,0.024,Sorting,Summative,General,Male
+income (t - 1),0.026,0.023,Sorting,Summative,General,Male
+income,-0.054,0.031,Sorting,Summative,General,Male
+spouse.precarious (t - 1),-0.001,0.014,Sorting,Summative,General,Male
+spouse.precarious,0.057,0.016,Sorting,Summative,General,Male
+spouse.exist (t - 1),-0.003,0.023,Sorting,Summative,General,Male
+spouse.exist,-0.06,0.023,Sorting,Summative,General,Male
+child.exist (t - 1),0.036,0.023,Sorting,Summative,General,Male
+child.exist,0.076,0.025,Sorting,Summative,General,Male
+hourly (t - 1),-0.026,0.014,Sorting,Summative,General,Male
+hourly,-0.005,0.012,Sorting,Summative,General,Male
+injill (t - 1),-0.016,0.021,Sorting,Summative,General,Male
+injill,-0.055,0.021,Sorting,Summative,General,Male
+urban (t - 1),-0.008,0.023,Sorting,Summative,General,Male
+urban,0.013,0.024,Sorting,Summative,General,Male
+union (t - 1),0.022,0.026,Sorting,Summative,General,Male
+union,-0.015,0.026,Sorting,Summative,General,Male
+race_black,0.17,0.039,Sorting,Summative,General,Male
+race_hispanic,0.071,0.037,Sorting,Summative,General,Male
+race_mixed,0.261,0.113,Sorting,Summative,General,Male
+general (t - 1),-0.047,0.026,Sorting,Summative,General,Female
+general,-0.13,0.033,Sorting,Summative,General,Female
+education (t - 1),0.066,0.022,Sorting,Summative,General,Female
+education,-0.055,0.021,Sorting,Summative,General,Female
+income (t - 1),-0.007,0.022,Sorting,Summative,General,Female
+income,-0.073,0.023,Sorting,Summative,General,Female
+spouse.precarious (t - 1),-0.003,0.011,Sorting,Summative,General,Female
+spouse.precarious,0.04,0.013,Sorting,Summative,General,Female
+spouse.exist (t - 1),-0.016,0.02,Sorting,Summative,General,Female
+spouse.exist,-0.061,0.021,Sorting,Summative,General,Female
+child.exist (t - 1),-0.038,0.025,Sorting,Summative,General,Female
+child.exist,0.07,0.027,Sorting,Summative,General,Female
+hourly (t - 1),-0.001,0.013,Sorting,Summative,General,Female
+hourly,-0.006,0.013,Sorting,Summative,General,Female
+injill (t - 1),0.015,0.015,Sorting,Summative,General,Female
+injill,-0.008,0.016,Sorting,Summative,General,Female
+urban (t - 1),0.028,0.019,Sorting,Summative,General,Female
+urban,-0.037,0.02,Sorting,Summative,General,Female
+union (t - 1),0.012,0.023,Sorting,Summative,General,Female
+union,-0.015,0.025,Sorting,Summative,General,Female
+race_black,0.079,0.037,Sorting,Summative,General,Female
+race_hispanic,0.102,0.036,Sorting,Summative,General,Female
+race_mixed,0.173,0.112,Sorting,Summative,General,Female
+general (t - 1),-0.057,0.023,Sorting,IRT,General,Full
+general,-0.06,0.029,Sorting,IRT,General,Full
+education (t - 1),0.058,0.018,Sorting,IRT,General,Full
+education,-0.052,0.017,Sorting,IRT,General,Full
+income (t - 1),0.002,0.017,Sorting,IRT,General,Full
+income,-0.045,0.019,Sorting,IRT,General,Full
+spouse.precarious (t - 1),-0.003,0.009,Sorting,IRT,General,Full
+spouse.precarious,0.057,0.011,Sorting,IRT,General,Full
+spouse.exist (t - 1),-0.001,0.016,Sorting,IRT,General,Full
+spouse.exist,-0.05,0.016,Sorting,IRT,General,Full
+child.exist (t - 1),0,0.017,Sorting,IRT,General,Full
+child.exist,0.048,0.019,Sorting,IRT,General,Full
+hourly (t - 1),0.002,0.01,Sorting,IRT,General,Full
+hourly,0,0.01,Sorting,IRT,General,Full
+injill (t - 1),0.005,0.012,Sorting,IRT,General,Full
+injill,-0.023,0.013,Sorting,IRT,General,Full
+urban (t - 1),0.002,0.015,Sorting,IRT,General,Full
+urban,-0.028,0.016,Sorting,IRT,General,Full
+union (t - 1),0.02,0.018,Sorting,IRT,General,Full
+union,-0.03,0.019,Sorting,IRT,General,Full
+sex,-0.049,0.021,Sorting,IRT,General,Full
+race_black,0.101,0.025,Sorting,IRT,General,Full
+race_hispanic,0.097,0.026,Sorting,IRT,General,Full
+race_mixed,0.222,0.089,Sorting,IRT,General,Full
+general (t - 1),-0.034,0.03,Sorting,IRT,General,Male
+general,-0.022,0.04,Sorting,IRT,General,Male
+education (t - 1),0.079,0.026,Sorting,IRT,General,Male
+education,-0.023,0.024,Sorting,IRT,General,Male
+income (t - 1),0.026,0.023,Sorting,IRT,General,Male
+income,-0.054,0.031,Sorting,IRT,General,Male
+spouse.precarious (t - 1),-0.001,0.014,Sorting,IRT,General,Male
+spouse.precarious,0.057,0.016,Sorting,IRT,General,Male
+spouse.exist (t - 1),-0.003,0.023,Sorting,IRT,General,Male
+spouse.exist,-0.06,0.023,Sorting,IRT,General,Male
+child.exist (t - 1),0.036,0.023,Sorting,IRT,General,Male
+child.exist,0.076,0.025,Sorting,IRT,General,Male
+hourly (t - 1),-0.026,0.014,Sorting,IRT,General,Male
+hourly,-0.005,0.012,Sorting,IRT,General,Male
+injill (t - 1),-0.016,0.021,Sorting,IRT,General,Male
+injill,-0.055,0.021,Sorting,IRT,General,Male
+urban (t - 1),-0.008,0.023,Sorting,IRT,General,Male
+urban,0.013,0.024,Sorting,IRT,General,Male
+union (t - 1),0.022,0.026,Sorting,IRT,General,Male
+union,-0.015,0.026,Sorting,IRT,General,Male
+race_black,0.17,0.039,Sorting,IRT,General,Male
+race_hispanic,0.071,0.037,Sorting,IRT,General,Male
+race_mixed,0.261,0.113,Sorting,IRT,General,Male
+general (t - 1),-0.071,0.028,Sorting,IRT,General,Female
+general,-0.134,0.036,Sorting,IRT,General,Female
+education (t - 1),0.056,0.024,Sorting,IRT,General,Female
+education,-0.049,0.022,Sorting,IRT,General,Female
+income (t - 1),-0.007,0.025,Sorting,IRT,General,Female
+income,-0.059,0.026,Sorting,IRT,General,Female
+spouse.precarious (t - 1),-0.008,0.012,Sorting,IRT,General,Female
+spouse.precarious,0.054,0.015,Sorting,IRT,General,Female
+spouse.exist (t - 1),-0.016,0.02,Sorting,IRT,General,Female
+spouse.exist,-0.037,0.022,Sorting,IRT,General,Female
+child.exist (t - 1),-0.035,0.026,Sorting,IRT,General,Female
+child.exist,0.047,0.028,Sorting,IRT,General,Female
+hourly (t - 1),0.018,0.014,Sorting,IRT,General,Female
+hourly,-0.002,0.014,Sorting,IRT,General,Female
+injill (t - 1),0.019,0.015,Sorting,IRT,General,Female
+injill,-0.014,0.017,Sorting,IRT,General,Female
+urban (t - 1),0.016,0.019,Sorting,IRT,General,Female
+urban,-0.039,0.021,Sorting,IRT,General,Female
+union (t - 1),0.007,0.023,Sorting,IRT,General,Female
+union,-0.021,0.024,Sorting,IRT,General,Female
+race_black,0.063,0.037,Sorting,IRT,General,Female
+race_hispanic,0.1,0.035,Sorting,IRT,General,Female
+race_mixed,0.236,0.116,Sorting,IRT,General,Female
+mental (t - 1),-0.029,0.02,Sorting,Summative,Mental,Full
+mental,-0.054,0.025,Sorting,Summative,Mental,Full
+education (t - 1),0.077,0.017,Sorting,Summative,Mental,Full
+education,-0.048,0.017,Sorting,Summative,Mental,Full
+income (t - 1),0.002,0.016,Sorting,Summative,Mental,Full
+income,-0.058,0.019,Sorting,Summative,Mental,Full
+spouse.precarious (t - 1),-0.002,0.009,Sorting,Summative,Mental,Full
+spouse.precarious,0.047,0.01,Sorting,Summative,Mental,Full
+spouse.exist (t - 1),-0.008,0.015,Sorting,Summative,Mental,Full
+spouse.exist,-0.058,0.015,Sorting,Summative,Mental,Full
+child.exist (t - 1),0.004,0.017,Sorting,Summative,Mental,Full
+child.exist,0.075,0.018,Sorting,Summative,Mental,Full
+hourly (t - 1),-0.013,0.01,Sorting,Summative,Mental,Full
+hourly,-0.006,0.009,Sorting,Summative,Mental,Full
+injill (t - 1),0.001,0.012,Sorting,Summative,Mental,Full
+injill,-0.028,0.013,Sorting,Summative,Mental,Full
+urban (t - 1),0.01,0.015,Sorting,Summative,Mental,Full
+urban,-0.009,0.016,Sorting,Summative,Mental,Full
+union (t - 1),0.018,0.018,Sorting,Summative,Mental,Full
+union,-0.017,0.018,Sorting,Summative,Mental,Full
+sex,-0.039,0.021,Sorting,Summative,Mental,Full
+race_black,0.139,0.026,Sorting,Summative,Mental,Full
+race_hispanic,0.096,0.025,Sorting,Summative,Mental,Full
+race_mixed,0.234,0.084,Sorting,Summative,Mental,Full
+mental (t - 1),0.036,0.04,Sorting,Summative,Mental,Male
+mental,-0.008,0.055,Sorting,Summative,Mental,Male
+education (t - 1),0.08,0.027,Sorting,Summative,Mental,Male
+education,-0.023,0.024,Sorting,Summative,Mental,Male
+income (t - 1),0.022,0.023,Sorting,Summative,Mental,Male
+income,-0.061,0.031,Sorting,Summative,Mental,Male
+spouse.precarious (t - 1),-0.002,0.014,Sorting,Summative,Mental,Male
+spouse.precarious,0.058,0.016,Sorting,Summative,Mental,Male
+spouse.exist (t - 1),-0.004,0.023,Sorting,Summative,Mental,Male
+spouse.exist,-0.062,0.023,Sorting,Summative,Mental,Male
+child.exist (t - 1),0.035,0.023,Sorting,Summative,Mental,Male
+child.exist,0.077,0.025,Sorting,Summative,Mental,Male
+hourly (t - 1),-0.027,0.014,Sorting,Summative,Mental,Male
+hourly,-0.005,0.012,Sorting,Summative,Mental,Male
+injill (t - 1),-0.01,0.021,Sorting,Summative,Mental,Male
+injill,-0.049,0.022,Sorting,Summative,Mental,Male
+urban (t - 1),-0.01,0.023,Sorting,Summative,Mental,Male
+urban,0.014,0.024,Sorting,Summative,Mental,Male
+union (t - 1),0.023,0.026,Sorting,Summative,Mental,Male
+union,-0.015,0.026,Sorting,Summative,Mental,Male
+race_black,0.164,0.039,Sorting,Summative,Mental,Male
+race_hispanic,0.076,0.036,Sorting,Summative,Mental,Male
+race_mixed,0.266,0.114,Sorting,Summative,Mental,Male
+mental (t - 1),-0.041,0.02,Sorting,Summative,Mental,Female
+mental,-0.05,0.026,Sorting,Summative,Mental,Female
+education (t - 1),0.068,0.022,Sorting,Summative,Mental,Female
+education,-0.059,0.021,Sorting,Summative,Mental,Female
+income (t - 1),-0.008,0.022,Sorting,Summative,Mental,Female
+income,-0.074,0.023,Sorting,Summative,Mental,Female
+spouse.precarious (t - 1),-0.002,0.011,Sorting,Summative,Mental,Female
+spouse.precarious,0.043,0.013,Sorting,Summative,Mental,Female
+spouse.exist (t - 1),-0.015,0.02,Sorting,Summative,Mental,Female
+spouse.exist,-0.06,0.02,Sorting,Summative,Mental,Female
+child.exist (t - 1),-0.036,0.025,Sorting,Summative,Mental,Female
+child.exist,0.071,0.027,Sorting,Summative,Mental,Female
+hourly (t - 1),-0.001,0.013,Sorting,Summative,Mental,Female
+hourly,-0.006,0.013,Sorting,Summative,Mental,Female
+injill (t - 1),0.013,0.016,Sorting,Summative,Mental,Female
+injill,-0.007,0.017,Sorting,Summative,Mental,Female
+urban (t - 1),0.031,0.019,Sorting,Summative,Mental,Female
+urban,-0.032,0.02,Sorting,Summative,Mental,Female
+union (t - 1),0.012,0.023,Sorting,Summative,Mental,Female
+union,-0.012,0.025,Sorting,Summative,Mental,Female
+race_black,0.113,0.035,Sorting,Summative,Mental,Female
+race_hispanic,0.126,0.034,Sorting,Summative,Mental,Female
+race_mixed,0.193,0.12,Sorting,Summative,Mental,Female
+mental (t - 1),-0.036,0.023,Sorting,IRT,Mental,Full
+mental,-0.05,0.028,Sorting,IRT,Mental,Full
+education (t - 1),0.06,0.018,Sorting,IRT,Mental,Full
+education,-0.052,0.018,Sorting,IRT,Mental,Full
+income (t - 1),-0.001,0.017,Sorting,IRT,Mental,Full
+income,-0.047,0.02,Sorting,IRT,Mental,Full
+spouse.precarious (t - 1),-0.002,0.009,Sorting,IRT,Mental,Full
+spouse.precarious,0.059,0.011,Sorting,IRT,Mental,Full
+spouse.exist (t - 1),-0.002,0.016,Sorting,IRT,Mental,Full
+spouse.exist,-0.047,0.016,Sorting,IRT,Mental,Full
+child.exist (t - 1),0,0.017,Sorting,IRT,Mental,Full
+child.exist,0.051,0.019,Sorting,IRT,Mental,Full
+hourly (t - 1),0.002,0.01,Sorting,IRT,Mental,Full
+hourly,-0.001,0.01,Sorting,IRT,Mental,Full
+injill (t - 1),0.006,0.012,Sorting,IRT,Mental,Full
+injill,-0.025,0.014,Sorting,IRT,Mental,Full
+urban (t - 1),0.002,0.015,Sorting,IRT,Mental,Full
+urban,-0.029,0.016,Sorting,IRT,Mental,Full
+union (t - 1),0.02,0.018,Sorting,IRT,Mental,Full
+union,-0.029,0.019,Sorting,IRT,Mental,Full
+sex,-0.053,0.021,Sorting,IRT,Mental,Full
+race_black,0.114,0.025,Sorting,IRT,Mental,Full
+race_hispanic,0.114,0.025,Sorting,IRT,Mental,Full
+race_mixed,0.238,0.091,Sorting,IRT,Mental,Full
+mental (t - 1),0.048,0.05,Sorting,IRT,Mental,Male
+mental,-0.007,0.066,Sorting,IRT,Mental,Male
+education (t - 1),0.053,0.023,Sorting,IRT,Mental,Male
+education,-0.044,0.028,Sorting,IRT,Mental,Male
+income (t - 1),0.014,0.025,Sorting,IRT,Mental,Male
+income,-0.045,0.029,Sorting,IRT,Mental,Male
+spouse.precarious (t - 1),0.001,0.015,Sorting,IRT,Mental,Male
+spouse.precarious,0.066,0.017,Sorting,IRT,Mental,Male
+spouse.exist (t - 1),0.01,0.025,Sorting,IRT,Mental,Male
+spouse.exist,-0.067,0.025,Sorting,IRT,Mental,Male
+child.exist (t - 1),0.023,0.023,Sorting,IRT,Mental,Male
+child.exist,0.059,0.026,Sorting,IRT,Mental,Male
+hourly (t - 1),-0.014,0.014,Sorting,IRT,Mental,Male
+hourly,0.003,0.013,Sorting,IRT,Mental,Male
+injill (t - 1),-0.006,0.021,Sorting,IRT,Mental,Male
+injill,-0.037,0.023,Sorting,IRT,Mental,Male
+urban (t - 1),-0.015,0.023,Sorting,IRT,Mental,Male
+urban,-0.021,0.024,Sorting,IRT,Mental,Male
+union (t - 1),0.035,0.028,Sorting,IRT,Mental,Male
+union,-0.029,0.028,Sorting,IRT,Mental,Male
+race_black,0.11,0.039,Sorting,IRT,Mental,Male
+race_hispanic,0.105,0.036,Sorting,IRT,Mental,Male
+race_mixed,0.224,0.132,Sorting,IRT,Mental,Male
+mental (t - 1),-0.059,0.024,Sorting,IRT,Mental,Female
+mental,-0.051,0.029,Sorting,IRT,Mental,Female
+education (t - 1),0.058,0.023,Sorting,IRT,Mental,Female
+education,-0.053,0.022,Sorting,IRT,Mental,Female
+income (t - 1),-0.008,0.024,Sorting,IRT,Mental,Female
+income,-0.061,0.026,Sorting,IRT,Mental,Female
+spouse.precarious (t - 1),-0.006,0.012,Sorting,IRT,Mental,Female
+spouse.precarious,0.056,0.014,Sorting,IRT,Mental,Female
+spouse.exist (t - 1),-0.016,0.02,Sorting,IRT,Mental,Female
+spouse.exist,-0.036,0.021,Sorting,IRT,Mental,Female
+child.exist (t - 1),-0.032,0.025,Sorting,IRT,Mental,Female
+child.exist,0.048,0.028,Sorting,IRT,Mental,Female
+hourly (t - 1),0.018,0.014,Sorting,IRT,Mental,Female
+hourly,-0.002,0.014,Sorting,IRT,Mental,Female
+injill (t - 1),0.019,0.015,Sorting,IRT,Mental,Female
+injill,-0.012,0.017,Sorting,IRT,Mental,Female
+urban (t - 1),0.019,0.019,Sorting,IRT,Mental,Female
+urban,-0.037,0.021,Sorting,IRT,Mental,Female
+union (t - 1),0.007,0.022,Sorting,IRT,Mental,Female
+union,-0.018,0.025,Sorting,IRT,Mental,Female
+race_black,0.106,0.034,Sorting,IRT,Mental,Female
+race_hispanic,0.128,0.034,Sorting,IRT,Mental,Female
+race_mixed,0.251,0.122,Sorting,IRT,Mental,Female
+precarious (t - 1),0.009,0.021,Causation,Summative,Mental,Full
+precarious,-0.013,0.027,Causation,Summative,Mental,Full
+education (t - 1),0.03,0.017,Causation,Summative,Mental,Full
+education,-0.017,0.023,Causation,Summative,Mental,Full
+income (t - 1),-0.003,0.02,Causation,Summative,Mental,Full
+income,0.078,0.021,Causation,Summative,Mental,Full
+spouse.precarious (t - 1),-0.004,0.008,Causation,Summative,Mental,Full
+spouse.precarious,0.005,0.01,Causation,Summative,Mental,Full
+spouse.exist (t - 1),-0.037,0.013,Causation,Summative,Mental,Full
+spouse.exist,0.021,0.014,Causation,Summative,Mental,Full
+child.exist (t - 1),0.004,0.013,Causation,Summative,Mental,Full
+child.exist,0.066,0.016,Causation,Summative,Mental,Full
+hourly (t - 1),0,0.008,Causation,Summative,Mental,Full
+hourly,0,0.01,Causation,Summative,Mental,Full
+injill (t - 1),-0.025,0.013,Causation,Summative,Mental,Full
+injill,-0.212,0.016,Causation,Summative,Mental,Full
+urban (t - 1),-0.01,0.012,Causation,Summative,Mental,Full
+urban,0.032,0.014,Causation,Summative,Mental,Full
+union (t - 1),0.002,0.018,Causation,Summative,Mental,Full
+union,0.001,0.019,Causation,Summative,Mental,Full
+sex,-0.076,0.02,Causation,Summative,Mental,Full
+race_black,0.042,0.024,Causation,Summative,Mental,Full
+race_hispanic,0.032,0.022,Causation,Summative,Mental,Full
+race_mixed,0.022,0.066,Causation,Summative,Mental,Full
+precarious (t - 1),0.022,0.037,Causation,Summative,Mental,Male
+precarious,0.008,0.046,Causation,Summative,Mental,Male
+education (t - 1),0.006,0.015,Causation,Summative,Mental,Male
+education,-0.001,0.014,Causation,Summative,Mental,Male
+income (t - 1),-0.021,0.028,Causation,Summative,Mental,Male
+income,0.054,0.029,Causation,Summative,Mental,Male
+spouse.precarious (t - 1),-0.003,0.01,Causation,Summative,Mental,Male
+spouse.precarious,0.01,0.008,Causation,Summative,Mental,Male
+spouse.exist (t - 1),-0.038,0.017,Causation,Summative,Mental,Male
+spouse.exist,0.032,0.016,Causation,Summative,Mental,Male
+child.exist (t - 1),0.01,0.013,Causation,Summative,Mental,Male
+child.exist,0.046,0.017,Causation,Summative,Mental,Male
+hourly (t - 1),0.003,0.008,Causation,Summative,Mental,Male
+hourly,-0.004,0.008,Causation,Summative,Mental,Male
+injill (t - 1),-0.005,0.018,Causation,Summative,Mental,Male
+injill,-0.159,0.022,Causation,Summative,Mental,Male
+urban (t - 1),-0.01,0.012,Causation,Summative,Mental,Male
+urban,0.011,0.017,Causation,Summative,Mental,Male
+union (t - 1),0.003,0.02,Causation,Summative,Mental,Male
+union,-0.006,0.023,Causation,Summative,Mental,Male
+race_black,0.059,0.032,Causation,Summative,Mental,Male
+race_hispanic,0.017,0.027,Causation,Summative,Mental,Male
+race_mixed,0.044,0.071,Causation,Summative,Mental,Male
+precarious (t - 1),0.013,0.035,Causation,Summative,Mental,Female
+precarious,-0.005,0.047,Causation,Summative,Mental,Female
+education (t - 1),0.043,0.022,Causation,Summative,Mental,Female
+education,-0.023,0.032,Causation,Summative,Mental,Female
+income (t - 1),0,0.028,Causation,Summative,Mental,Female
+income,0.088,0.03,Causation,Summative,Mental,Female
+spouse.precarious (t - 1),-0.005,0.011,Causation,Summative,Mental,Female
+spouse.precarious,0.001,0.014,Causation,Summative,Mental,Female
+spouse.exist (t - 1),-0.035,0.019,Causation,Summative,Mental,Female
+spouse.exist,0.018,0.022,Causation,Summative,Mental,Female
+child.exist (t - 1),-0.008,0.024,Causation,Summative,Mental,Female
+child.exist,0.084,0.027,Causation,Summative,Mental,Female
+hourly (t - 1),-0.003,0.013,Causation,Summative,Mental,Female
+hourly,0.004,0.018,Causation,Summative,Mental,Female
+injill (t - 1),-0.039,0.018,Causation,Summative,Mental,Female
+injill,-0.247,0.023,Causation,Summative,Mental,Female
+urban (t - 1),-0.008,0.02,Causation,Summative,Mental,Female
+urban,0.052,0.022,Causation,Summative,Mental,Female
+union (t - 1),-0.005,0.033,Causation,Summative,Mental,Female
+union,0.012,0.031,Causation,Summative,Mental,Female
+race_black,-0.001,0.039,Causation,Summative,Mental,Female
+race_hispanic,0.038,0.036,Causation,Summative,Mental,Female
+race_mixed,-0.001,0.11,Causation,Summative,Mental,Female
+Lz (t - 1),0.009,0.018,Causation,IRT,Mental,Full
+Lz,-0.003,0.024,Causation,IRT,Mental,Full
+education (t - 1),0.03,0.017,Causation,IRT,Mental,Full
+education,-0.016,0.023,Causation,IRT,Mental,Full
+income (t - 1),-0.003,0.02,Causation,IRT,Mental,Full
+income,0.078,0.021,Causation,IRT,Mental,Full
+spouse.precarious (t - 1),-0.005,0.008,Causation,IRT,Mental,Full
+spouse.precarious,0.005,0.01,Causation,IRT,Mental,Full
+spouse.exist (t - 1),-0.037,0.013,Causation,IRT,Mental,Full
+spouse.exist,0.022,0.014,Causation,IRT,Mental,Full
+child.exist (t - 1),0.004,0.013,Causation,IRT,Mental,Full
+child.exist,0.065,0.016,Causation,IRT,Mental,Full
+hourly (t - 1),0.001,0.008,Causation,IRT,Mental,Full
+hourly,0,0.01,Causation,IRT,Mental,Full
+injill (t - 1),-0.025,0.013,Causation,IRT,Mental,Full
+injill,-0.211,0.016,Causation,IRT,Mental,Full
+urban (t - 1),-0.01,0.012,Causation,IRT,Mental,Full
+urban,0.032,0.014,Causation,IRT,Mental,Full
+union (t - 1),0.002,0.018,Causation,IRT,Mental,Full
+union,0.002,0.019,Causation,IRT,Mental,Full
+sex,-0.076,0.02,Causation,IRT,Mental,Full
+race_black,0.04,0.023,Causation,IRT,Mental,Full
+race_hispanic,0.03,0.022,Causation,IRT,Mental,Full
+race_mixed,0.019,0.066,Causation,IRT,Mental,Full
+Lz (t - 1),0.025,0.034,Causation,IRT,Mental,Male
+Lz,0.011,0.043,Causation,IRT,Mental,Male
+education (t - 1),0.006,0.015,Causation,IRT,Mental,Male
+education,-0.002,0.015,Causation,IRT,Mental,Male
+income (t - 1),-0.021,0.027,Causation,IRT,Mental,Male
+income,0.054,0.029,Causation,IRT,Mental,Male
+spouse.precarious (t - 1),-0.004,0.01,Causation,IRT,Mental,Male
+spouse.precarious,0.009,0.009,Causation,IRT,Mental,Male
+spouse.exist (t - 1),-0.037,0.017,Causation,IRT,Mental,Male
+spouse.exist,0.032,0.016,Causation,IRT,Mental,Male
+child.exist (t - 1),0.01,0.013,Causation,IRT,Mental,Male
+child.exist,0.046,0.017,Causation,IRT,Mental,Male
+hourly (t - 1),0.002,0.008,Causation,IRT,Mental,Male
+hourly,-0.004,0.009,Causation,IRT,Mental,Male
+injill (t - 1),-0.005,0.018,Causation,IRT,Mental,Male
+injill,-0.159,0.022,Causation,IRT,Mental,Male
+urban (t - 1),-0.009,0.012,Causation,IRT,Mental,Male
+urban,0.012,0.017,Causation,IRT,Mental,Male
+union (t - 1),0.003,0.02,Causation,IRT,Mental,Male
+union,-0.006,0.023,Causation,IRT,Mental,Male
+race_black,0.06,0.029,Causation,IRT,Mental,Male
+race_hispanic,0.016,0.027,Causation,IRT,Mental,Male
+race_mixed,0.045,0.069,Causation,IRT,Mental,Male
+Lz (t - 1),0.007,0.03,Causation,IRT,Mental,Female
+Lz,0,0.044,Causation,IRT,Mental,Female
+education (t - 1),0.042,0.022,Causation,IRT,Mental,Female
+education,-0.022,0.032,Causation,IRT,Mental,Female
+income (t - 1),0,0.028,Causation,IRT,Mental,Female
+income,0.088,0.03,Causation,IRT,Mental,Female
+spouse.precarious (t - 1),-0.005,0.011,Causation,IRT,Mental,Female
+spouse.precarious,0,0.015,Causation,IRT,Mental,Female
+spouse.exist (t - 1),-0.036,0.019,Causation,IRT,Mental,Female
+spouse.exist,0.018,0.021,Causation,IRT,Mental,Female
+child.exist (t - 1),-0.007,0.024,Causation,IRT,Mental,Female
+child.exist,0.083,0.027,Causation,IRT,Mental,Female
+hourly (t - 1),-0.002,0.013,Causation,IRT,Mental,Female
+hourly,0.004,0.018,Causation,IRT,Mental,Female
+injill (t - 1),-0.04,0.018,Causation,IRT,Mental,Female
+injill,-0.247,0.024,Causation,IRT,Mental,Female
+urban (t - 1),-0.008,0.02,Causation,IRT,Mental,Female
+urban,0.052,0.023,Causation,IRT,Mental,Female
+union (t - 1),-0.005,0.032,Causation,IRT,Mental,Female
+union,0.012,0.031,Causation,IRT,Mental,Female
+race_black,-0.002,0.038,Causation,IRT,Mental,Female
+race_hispanic,0.037,0.036,Causation,IRT,Mental,Female
+race_mixed,-0.003,0.111,Causation,IRT,Mental,Female
